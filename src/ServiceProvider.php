@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Bpmore\A11yState;
 
+use Bpmore\A11yState\Database\EvidenceDatabase;
 use Bpmore\A11yState\Evidence\EvidenceLog;
 use Bpmore\A11yState\Evidence\YamlEvidenceLog;
 use Bpmore\A11yState\Feedback\FeedbackWindow;
@@ -45,6 +46,7 @@ class ServiceProvider extends AddonServiceProvider
 
     protected $commands = [
         Commands\Check::class,
+        Commands\Install::class,
     ];
 
     protected $tags = [
@@ -114,7 +116,12 @@ class ServiceProvider extends AddonServiceProvider
         $this->app->bind(Generator::class, fn ($app) => new Generator($app->make(Profiles::class), $app->make(Validator::class)));
 
         $this->app->bind(StatementRepository::class, fn () => new YamlStatementRepository(self::path('statements', 'content/a11y-state/statements')));
-        $this->app->bind(EvidenceLog::class, fn () => new YamlEvidenceLog(self::path('evidence', 'content/a11y-state/evidence')));
+        // The evidence log: YAML files by default, a database table when the
+        // config file asks for one. Both refuse the same two things and
+        // nothing else; see `EvidenceLog`.
+        $this->app->bind(EvidenceLog::class, fn () => EvidenceDatabase::driver() === EvidenceDatabase::ELOQUENT
+            ? EvidenceDatabase::log()
+            : new YamlEvidenceLog(self::path('evidence', 'content/a11y-state/evidence')));
 
         // Every adapter, available or not. `FindingSources` asks each
         // whether its addon is installed and skips the ones that are not,

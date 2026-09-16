@@ -45,7 +45,12 @@ protect that.
   `FindingSource` interface are pure PHP: no Statamic facades, no Illuminate
   container. The unit suite boots nothing and must stay that way. The one
   exception is `Statement\StatementRoute`, which reads config and is named
-  for the seam it sits on.
+  for the seam it sits on. `src/Database` is the other side of the seam: the
+  Eloquent evidence driver takes a `ConnectionInterface` and nothing else,
+  and `EvidenceDatabase` is the only class that reads config for it.
+- The Eloquent driver's `append` is an INSERT and nothing else. A test
+  greps its source for any other write. The migration runs only through
+  `a11y:state:install`, never `loadMigrationsFrom`.
 - The integrations are adapters behind `FindingSource` with a null source.
   A11y State installs and works with no other `bpmore/*` addon, and the test
   suite proves it by booting A11y State alone. An adapter resolves the other

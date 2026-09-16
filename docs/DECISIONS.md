@@ -7,6 +7,33 @@ not edited when they stop being true; a reversal gets a newer entry.
 
 ---
 
+## 2026-09-16: An Eloquent evidence driver, and the inferred profile fields stay
+
+**The driver.** The brief allowed a database driver as an option and said
+to ask before adding a migration; the owner asked for it on 2026-09-16.
+One table, the id as primary key, `append` as an INSERT and nothing else,
+the same two refusals as the YAML driver, and a test that reads the
+driver's source for any other kind of write. The migration runs only
+through `a11y:state:install`, as A11y Report's do, so there is one path
+and one record of what ran, and a flat-file site never has the table.
+YAML stays the default. The statement file itself stays YAML on both
+drivers: it is content, and one file per site in the repository is where
+content belongs.
+
+**Rejected:** a database trigger refusing UPDATE and DELETE (dialect
+specific, and a person with database access can drop it; the answer to
+that person is backups and access control, as for the files); a hash
+chain across rows (machinery the guarantee does not need).
+
+**The profiles.** The ADA Title II and AODA profiles mark `commitment`,
+`conformance_status` and `contact` required although neither regime
+requires a statement document. The owner confirmed on 2026-09-16 that
+they stay as they are: a statement without them is not one by the W3C's
+minimum, and a site that disagrees can set them optional in its
+published config.
+
+---
+
 ## 2026-09-16: The addon is A11y State, not Grange
 
 The brief named it Grange. The owner renamed it on 2026-09-16 to sit

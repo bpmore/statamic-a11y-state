@@ -42,14 +42,22 @@ return [
     | directory, so the statement and its evidence live in the repository
     | beside the content they describe and their history is git's.
     |
-    | The evidence log is one YAML file per record, written once and never
-    | rewritten. There is no setting that changes that.
+    | The evidence log is one YAML file per record by default, written once
+    | and never rewritten. A site that already runs a database can keep the
+    | log in a table instead: set 'evidence_driver' to 'eloquent', name a
+    | connection in 'evidence_connection' (null is the site's default), and
+    | run `php please a11y:state:install` once to create the table. The
+    | table's id is its primary key, so the database refuses a second write
+    | of the same record the way the file driver does. Neither driver has a
+    | way to change or remove a record, and there is no setting for one.
     |
     */
 
     'storage' => [
         'statements' => 'content/a11y-state/statements',
         'evidence' => 'content/a11y-state/evidence',
+        'evidence_driver' => env('A11Y_STATE_EVIDENCE_DRIVER', 'yaml'),
+        'evidence_connection' => env('A11Y_STATE_EVIDENCE_CONNECTION'),
     ],
 
     /*
