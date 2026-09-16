@@ -68,9 +68,10 @@ is silent, so documentation is the only warning); refusing to boot when
 the report is present (A11y State must work beside it, and the report's
 statement is a different document with a different source of truth).
 
-**Open:** whether A11y State should replace the report's statement in a later
-release of the report, or read the report's conformance as a further
-source. Not decided here.
+**Confirmed by the owner on 2026-09-16:** the route stays
+`/accessibility-statement`. Still open: whether A11y State should replace the
+report's statement in a later release of the report, or read the report's
+conformance as a further source.
 
 ---
 
