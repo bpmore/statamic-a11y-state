@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Statement;
+namespace Bpmore\A11yState\Statement;
 
 /**
  * One reason a statement is not ready, or one thing to know about it.
  *
  * Errors stop generation. Warnings do not: a stale assessment is flagged in
- * the control panel and by `grange:check`, and the published statement is
+ * the control panel and by `a11y:state:check`, and the published statement is
  * left exactly as it was, because a document that changes itself when a
  * date passes is a document nobody signed.
  */

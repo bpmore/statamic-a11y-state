@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Storage;
+namespace Bpmore\A11yState\Storage;
 
-use Bpmore\Grange\Statement\AttestationRequired;
-use Bpmore\Grange\Statement\ConformanceStatus;
-use Bpmore\Grange\Statement\Statement;
+use Bpmore\A11yState\Statement\AttestationRequired;
+use Bpmore\A11yState\Statement\ConformanceStatus;
+use Bpmore\A11yState\Statement\Statement;
 
 /**
  * What no driver may write. Called by every `save`.

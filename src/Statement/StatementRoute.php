@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Statement;
+namespace Bpmore\A11yState\Statement;
 
 /**
  * What the statement's own page renders with, decided per request.
@@ -19,13 +19,13 @@ namespace Bpmore\Grange\Statement;
  */
 final class StatementRoute
 {
-    public const FALLBACK_LAYOUT = 'grange::statement-layout';
+    public const FALLBACK_LAYOUT = 'a11y-state::statement-layout';
 
-    public const DEFAULT_VIEW = 'grange::statement';
+    public const DEFAULT_VIEW = 'a11y-state::statement';
 
     public static function view(): string
     {
-        $view = config('statamic-grange.view');
+        $view = config('statamic-a11y-state.view');
 
         return is_string($view) && $view !== '' ? $view : self::DEFAULT_VIEW;
     }
@@ -43,7 +43,7 @@ final class StatementRoute
 
     public static function layout(): string
     {
-        $configured = config('statamic-grange.layout');
+        $configured = config('statamic-a11y-state.layout');
 
         if (is_string($configured) && $configured !== '') {
             return $configured;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Feedback;
+namespace Bpmore\A11yState\Feedback;
 
 final class FeedbackReport
 {

@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Commands;
+namespace Bpmore\A11yState\Commands;
 
-use Bpmore\Grange\Evidence\Actions;
-use Bpmore\Grange\Evidence\Filter;
-use Bpmore\Grange\Feedback\FeedbackWindow;
-use Bpmore\Grange\Feedback\FormSubmissions;
-use Bpmore\Grange\Statement\Dates;
-use Bpmore\Grange\Statement\Problem;
-use Bpmore\Grange\Statements;
+use Bpmore\A11yState\Evidence\Actions;
+use Bpmore\A11yState\Evidence\Filter;
+use Bpmore\A11yState\Feedback\FeedbackWindow;
+use Bpmore\A11yState\Feedback\FormSubmissions;
+use Bpmore\A11yState\Statement\Dates;
+use Bpmore\A11yState\Statement\Problem;
+use Bpmore\A11yState\Statements;
 use Illuminate\Console\Command;
 use Statamic\Console\RunsInPlease;
 use Statamic\Facades\Site;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * `php please grange:check`. Reads every site's statement and says whether
+ * `php please a11y:state:check`. Reads every site's statement and says whether
  * it would generate, whether its assessment is stale, whether it claims
  * more than its exceptions allow, and whether feedback is waiting past
  * the window.
@@ -36,7 +36,7 @@ class Check extends Command
 
     public const EXIT_INVALID = 2;
 
-    protected $signature = 'statamic:grange:check
+    protected $signature = 'statamic:a11y:state:check
         {--site=* : Site handle to check, repeatable, every site when omitted}
         {--json : Write the result as JSON to stdout and nothing else}
         {--fail-on= : Comma list of incomplete, stale, overclaim, feedback; exit 1 when any is found. All of them when omitted}

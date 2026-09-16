@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use Bpmore\Grange\Statement\Generator;
-use Bpmore\Grange\Statement\HtmlRenderer;
-use Bpmore\Grange\Statement\Problem;
-use Bpmore\Grange\Statement\Staleness;
-use Bpmore\Grange\Statement\Validator;
+use Bpmore\A11yState\Statement\Generator;
+use Bpmore\A11yState\Statement\HtmlRenderer;
+use Bpmore\A11yState\Statement\Problem;
+use Bpmore\A11yState\Statement\Staleness;
+use Bpmore\A11yState\Statement\Validator;
 
 /*
  * Discriminating test 5, the core half: an assessment older than the window

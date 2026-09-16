@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Statement;
+namespace Bpmore\A11yState\Statement;
 
 /**
  * The document as an HTML fragment: one heading for the title at the level
@@ -23,14 +23,14 @@ final class HtmlRenderer
         $lang = htmlspecialchars($document->language, ENT_QUOTES, 'UTF-8');
 
         $out = [];
-        $out[] = "<article class=\"grange-statement\" lang=\"{$lang}\">";
+        $out[] = "<article class=\"a11y-state-statement\" lang=\"{$lang}\">";
         $out[] = "<h{$h}>".$this->e($document->title)."</h{$h}>";
-        $out[] = '<p class="grange-statement__organization">'.$this->e($document->organization).'</p>';
-        $out[] = '<p class="grange-statement__status">Conformance status: <strong>'.$this->e($document->status->label()).'</strong></p>';
+        $out[] = '<p class="a11y-state-statement__organization">'.$this->e($document->organization).'</p>';
+        $out[] = '<p class="a11y-state-statement__status">Conformance status: <strong>'.$this->e($document->status->label()).'</strong></p>';
 
         foreach ($document->sections as $section) {
             $key = htmlspecialchars($section->key, ENT_QUOTES, 'UTF-8');
-            $out[] = "<section class=\"grange-statement__section\" id=\"grange-{$key}\">";
+            $out[] = "<section class=\"a11y-state-statement__section\" id=\"a11y-state-{$key}\">";
             $out[] = "<h{$sub}>".$this->e($section->heading)."</h{$sub}>";
 
             foreach ($section->paragraphs as $paragraph) {
@@ -50,7 +50,7 @@ final class HtmlRenderer
             $out[] = '</section>';
         }
 
-        $out[] = '<section class="grange-statement__section" id="grange-about">';
+        $out[] = '<section class="a11y-state-statement__section" id="a11y-state-about">';
         $out[] = "<h{$sub}>About this statement</h{$sub}>";
         $out[] = '<p>'.$this->e($document->disclaimer).'</p>';
         $out[] = '<p><small>Generated '.$this->e($document->generatedAt).' under the '.$this->e($document->profile).' profile.</small></p>';

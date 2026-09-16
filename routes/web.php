@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Bpmore\Grange\Http\Controllers\StatementController;
+use Bpmore\A11yState\Http\Controllers\StatementController;
 use Illuminate\Support\Facades\Route;
 use Statamic\Facades\Site;
 
@@ -13,10 +13,10 @@ use Statamic\Facades\Site;
  *
  * A controller and never a closure: `route:cache` writes route defaults
  * with `var_export`, which cannot express a closure, and writes the broken
- * file without complaining. Accessibility Report took a live site down
+ * file without complaining. A11y Report took a live site down
  * that way once, and this addon does not need to learn it again.
  */
-$configured = config('statamic-grange.route');
+$configured = config('statamic-a11y-state.route');
 
 if (is_string($configured) && trim($configured, '/ ') !== '') {
     $route = '/'.trim($configured, '/');
@@ -26,6 +26,6 @@ if (is_string($configured) && trim($configured, '/ ') !== '') {
         ->unique()
         ->each(function (string $prefix) use ($route) {
             Route::get($prefix.$route, StatementController::class)
-                ->name('grange.statement'.($prefix === '' ? '' : '.'.trim($prefix, '/')));
+                ->name('a11y-state.statement'.($prefix === '' ? '' : '.'.trim($prefix, '/')));
         });
 }

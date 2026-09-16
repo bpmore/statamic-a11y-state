@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange;
+namespace Bpmore\A11yState;
 
-use Bpmore\Grange\Evidence\Actions;
-use Bpmore\Grange\Evidence\EvidenceLog;
-use Bpmore\Grange\Evidence\Record;
-use Bpmore\Grange\Evidence\RecordExists;
-use Bpmore\Grange\Integrations\FindingSource;
-use Bpmore\Grange\Statement\Attestation;
-use Bpmore\Grange\Statement\ConformanceStatus;
-use Bpmore\Grange\Statement\Dates;
-use Bpmore\Grange\Statement\Document;
-use Bpmore\Grange\Statement\Generator;
-use Bpmore\Grange\Statement\IncompleteStatement;
-use Bpmore\Grange\Statement\KnownException;
-use Bpmore\Grange\Statement\Overclaim;
-use Bpmore\Grange\Statement\Problem;
-use Bpmore\Grange\Statement\Profiles;
-use Bpmore\Grange\Statement\Rules;
-use Bpmore\Grange\Statement\Statement;
-use Bpmore\Grange\Statement\Validator;
-use Bpmore\Grange\Storage\StatementRepository;
+use Bpmore\A11yState\Evidence\Actions;
+use Bpmore\A11yState\Evidence\EvidenceLog;
+use Bpmore\A11yState\Evidence\Record;
+use Bpmore\A11yState\Evidence\RecordExists;
+use Bpmore\A11yState\Integrations\FindingSource;
+use Bpmore\A11yState\Statement\Attestation;
+use Bpmore\A11yState\Statement\ConformanceStatus;
+use Bpmore\A11yState\Statement\Dates;
+use Bpmore\A11yState\Statement\Document;
+use Bpmore\A11yState\Statement\Generator;
+use Bpmore\A11yState\Statement\IncompleteStatement;
+use Bpmore\A11yState\Statement\KnownException;
+use Bpmore\A11yState\Statement\Overclaim;
+use Bpmore\A11yState\Statement\Problem;
+use Bpmore\A11yState\Statement\Profiles;
+use Bpmore\A11yState\Statement\Rules;
+use Bpmore\A11yState\Statement\Statement;
+use Bpmore\A11yState\Statement\Validator;
+use Bpmore\A11yState\Storage\StatementRepository;
 use Statamic\Facades\Site;
 
 /**
@@ -134,7 +134,7 @@ final class Statements
      * is of a claim, not of a statement.
      *
      * @throws Overclaim when the status would be fully conformant over open exceptions
-     * @throws \Bpmore\Grange\Statement\AttestationRequired when the status would be fully conformant without the attestation step
+     * @throws \Bpmore\A11yState\Statement\AttestationRequired when the status would be fully conformant without the attestation step
      */
     public function save(Statement $statement, string $actor, string $note = 'Statement saved'): Statement
     {

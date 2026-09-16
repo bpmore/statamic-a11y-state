@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Statement;
+namespace Bpmore\A11yState\Statement;
 
 /**
  * How bad a known exception is. The four words are axe-core's impact scale,
- * which is what Accessibility Report already uses, so an exception that
+ * which is what A11y Report already uses, so an exception that
  * arrives from there keeps its severity without translation.
  */
 enum Severity: string

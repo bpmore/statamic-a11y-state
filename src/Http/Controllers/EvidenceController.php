@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Http\Controllers;
+namespace Bpmore\A11yState\Http\Controllers;
 
-use Bpmore\Grange\Evidence\Actions;
-use Bpmore\Grange\Evidence\Filter;
-use Bpmore\Grange\Evidence\Ordering;
-use Bpmore\Grange\Statements;
+use Bpmore\A11yState\Evidence\Actions;
+use Bpmore\A11yState\Evidence\Filter;
+use Bpmore\A11yState\Evidence\Ordering;
+use Bpmore\A11yState\Statements;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Statamic\Facades\User;
@@ -38,11 +38,11 @@ final class EvidenceController extends CpController
 
         $urls = StatementPageData::urls($site);
         $query = array_merge(['site' => $site], $filter->toQuery());
-        $link = fn (array $extra = []) => cp_route('utilities.grange.evidence').'?'.http_build_query(array_filter(array_merge($query, $extra), fn ($v) => $v !== null && $v !== ''));
+        $link = fn (array $extra = []) => cp_route('utilities.a11y-state.evidence').'?'.http_build_query(array_filter(array_merge($query, $extra), fn ($v) => $v !== null && $v !== ''));
 
         return Inertia::render('utilities/Show', [
-            'title' => 'Accessibility Statement: Evidence',
-            'html' => view('grange::utilities.evidence', [
+            'title' => 'A11y State: Evidence',
+            'html' => view('a11y-state::utilities.evidence', [
                 'site' => $site,
                 'records' => $slice,
                 'total' => count($all),
@@ -53,8 +53,8 @@ final class EvidenceController extends CpController
                 'page' => $page,
                 'pages' => $pages,
                 'pageUrl' => $link,
-                'exportCsv' => cp_route('utilities.grange.evidence.export', ['format' => 'csv']).'?'.http_build_query($filter->toQuery()),
-                'exportJson' => cp_route('utilities.grange.evidence.export', ['format' => 'json']).'?'.http_build_query($filter->toQuery()),
+                'exportCsv' => cp_route('utilities.a11y-state.evidence.export', ['format' => 'csv']).'?'.http_build_query($filter->toQuery()),
+                'exportJson' => cp_route('utilities.a11y-state.evidence.export', ['format' => 'json']).'?'.http_build_query($filter->toQuery()),
                 'urls' => $urls,
                 'canRecord' => (bool) User::current()?->can('record accessibility evidence'),
                 'externalSource' => $statements->findings()->name(),

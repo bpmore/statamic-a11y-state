@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Evidence;
+namespace Bpmore\A11yState\Evidence;
 
 use RuntimeException;
 use Symfony\Component\Yaml\Yaml;

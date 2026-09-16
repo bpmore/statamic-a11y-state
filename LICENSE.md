@@ -64,7 +64,7 @@ DEALINGS IN THE SOFTWARE.
 
 ---
 
-*This licence was drafted by reading Statamic's own and Accessibility Report's,
+*This licence was drafted by reading Statamic's own and A11y Report's,
 which are the norm this addon is listed alongside. No lawyer has reviewed it.
 The no-legal-advice clause is the one most likely to be tested one day, because
 this is the product that generates the document somebody will publish.*

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Http\Controllers;
+namespace Bpmore\A11yState\Http\Controllers;
 
-use Bpmore\Grange\Evidence\Actions;
-use Bpmore\Grange\Evidence\Filter;
-use Bpmore\Grange\Feedback\FeedbackWindow;
-use Bpmore\Grange\Feedback\FormSubmissions;
-use Bpmore\Grange\Statement\Dates;
-use Bpmore\Grange\Statements;
+use Bpmore\A11yState\Evidence\Actions;
+use Bpmore\A11yState\Evidence\Filter;
+use Bpmore\A11yState\Feedback\FeedbackWindow;
+use Bpmore\A11yState\Feedback\FormSubmissions;
+use Bpmore\A11yState\Statement\Dates;
+use Bpmore\A11yState\Statements;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Statamic\Facades\User;
@@ -28,8 +28,8 @@ final class FeedbackController extends CpController
         $report = $window->report($submissions->all(), $acks, Dates::now());
 
         return Inertia::render('utilities/Show', [
-            'title' => 'Accessibility Statement: Feedback',
-            'html' => view('grange::utilities.feedback', [
+            'title' => 'A11y State: Feedback',
+            'html' => view('a11y-state::utilities.feedback', [
                 'site' => $site,
                 'form' => $submissions->handle(),
                 'formExists' => $submissions->formExists(),

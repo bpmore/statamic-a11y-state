@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use Bpmore\Grange\Statement\Attestation;
-use Bpmore\Grange\Statement\ConformanceStatus;
-use Bpmore\Grange\Statement\KnownException;
-use Bpmore\Grange\Statement\Profiles;
-use Bpmore\Grange\Statement\Rules;
-use Bpmore\Grange\Statement\Severity;
-use Bpmore\Grange\Statement\Statement;
-use Bpmore\Grange\Statement\Validator;
-use Bpmore\Grange\Tests\TestCase;
+use Bpmore\A11yState\Statement\Attestation;
+use Bpmore\A11yState\Statement\ConformanceStatus;
+use Bpmore\A11yState\Statement\KnownException;
+use Bpmore\A11yState\Statement\Profiles;
+use Bpmore\A11yState\Statement\Rules;
+use Bpmore\A11yState\Statement\Severity;
+use Bpmore\A11yState\Statement\Statement;
+use Bpmore\A11yState\Statement\Validator;
+use Bpmore\A11yState\Tests\TestCase;
 
 // Only the feature tests boot Statamic. The core takes values and returns
 // values, and a suite that boots nothing for it cannot grow a dependency
@@ -18,14 +18,14 @@ use Bpmore\Grange\Tests\TestCase;
 uses(TestCase::class)->in('Feature');
 
 /** The shipped config file, read straight from disk, as the unit tests see it. */
-function grangeConfig(): array
+function a11yStateConfig(): array
 {
-    return require __DIR__.'/../config/statamic-grange.php';
+    return require __DIR__.'/../config/statamic-a11y-state.php';
 }
 
 function profiles(): Profiles
 {
-    return Profiles::fromArray(grangeConfig()['profiles']);
+    return Profiles::fromArray(a11yStateConfig()['profiles']);
 }
 
 function rules(string $severity = 'minor', int $staleAfterDays = 365): Rules
@@ -87,7 +87,7 @@ function attestation(): Attestation
 /** A directory of this test's own under the system temp dir, removed by the caller. */
 function tempDir(string $name): string
 {
-    $dir = sys_get_temp_dir().'/grange-'.$name.'-'.bin2hex(random_bytes(4));
+    $dir = sys_get_temp_dir().'/a11y-state-'.$name.'-'.bin2hex(random_bytes(4));
     mkdir($dir, 0775, true);
 
     return $dir;
@@ -120,7 +120,7 @@ function cpUser(array $permissions = []): \Statamic\Contracts\Auth\User
     if ($permissions === []) {
         $user->makeSuper();
     } else {
-        $role = \Statamic\Facades\Role::make('grange-'.uniqid())->permissions($permissions);
+        $role = \Statamic\Facades\Role::make('a11y-state-'.uniqid())->permissions($permissions);
         $role->save();
         $user->assignRole($role);
     }
@@ -131,17 +131,17 @@ function cpUser(array $permissions = []): \Statamic\Contracts\Auth\User
 }
 
 /** Save a complete statement straight through the service, as a fixture for the feature tests. */
-function saveStatement(string $profile = 'w3c', \Bpmore\Grange\Statement\ConformanceStatus $status = \Bpmore\Grange\Statement\ConformanceStatus::PartiallyConformant, array $disclosures = []): \Bpmore\Grange\Statement\Statement
+function saveStatement(string $profile = 'w3c', \Bpmore\A11yState\Statement\ConformanceStatus $status = \Bpmore\A11yState\Statement\ConformanceStatus::PartiallyConformant, array $disclosures = []): \Bpmore\A11yState\Statement\Statement
 {
     $statement = completeStatement($profile, $status)->withDisclosures($disclosures);
 
-    return app(\Bpmore\Grange\Statements::class)->save($statement, 'fixture');
+    return app(\Bpmore\A11yState\Statements::class)->save($statement, 'fixture');
 }
 
 /** The utility's own markup, as Vue will receive it: unpacked from Inertia's page object. */
 function utilityHtml(string $path = ''): string
 {
-    $response = test()->get(cp_route('utilities.index').'/grange'.$path)->assertOk()->getContent();
+    $response = test()->get(cp_route('utilities.index').'/a11y-state'.$path)->assertOk()->getContent();
 
     preg_match('/data-page="([^"]+)"/', $response, $m);
     $page = json_decode(html_entity_decode($m[1], ENT_QUOTES | ENT_HTML5, 'UTF-8'), true);

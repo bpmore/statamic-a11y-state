@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Evidence;
+namespace Bpmore\A11yState\Evidence;
 
 /**
  * What a record can say was done. A closed list, so an export can be

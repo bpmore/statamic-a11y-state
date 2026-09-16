@@ -4,32 +4,32 @@
     is this addon's renderer, every value in it already escaped, and it
     contains no braces Vue would read as its own.
 --}}
-<ui-header title="Accessibility Statement" icon="list-checklist" />
+<ui-header title="A11y State" icon="list-checklist" />
 
 <div class="space-y-6">
 
-    @include('grange::utilities.nav', ['active' => 'preview'])
+    @include('a11y-state::utilities.nav', ['active' => 'preview'])
 
     @if ($html === null)
         <ui-card-panel heading="This statement cannot be generated yet">
             <ul class="ps-5 space-y-1" style="list-style: disc">
                 @foreach ($problems as $p)
-                    <li>@grangeText($p->message)</li>
+                    <li>@a11yStateText($p->message)</li>
                 @endforeach
             </ul>
-            <p class="mt-3"><ui-button href="@grangeText($urls['index'])" text="Back to the editor" /></p>
+            <p class="mt-3"><ui-button href="@a11yStateText($urls['index'])" text="Back to the editor" /></p>
         </ui-card-panel>
     @else
         <ui-card-panel heading="Preview">
             <div class="prose">
-                {!! \Bpmore\Grange\Support\VueSafe::braces($html) !!}
+                {!! \Bpmore\A11yState\Support\VueSafe::braces($html) !!}
             </div>
         </ui-card-panel>
         <div class="flex flex-wrap items-center gap-3">
-            <ui-button href="@grangeText($urls['exportHtml'])" text="Download HTML" />
-            <ui-button href="@grangeText($urls['exportMarkdown'])" text="Download Markdown" />
+            <ui-button href="@a11yStateText($urls['exportHtml'])" text="Download HTML" />
+            <ui-button href="@a11yStateText($urls['exportMarkdown'])" text="Download Markdown" />
         </div>
     @endif
 
-    @include('grange::utilities.disclaimer')
+    @include('a11y-state::utilities.disclaimer')
 </div>

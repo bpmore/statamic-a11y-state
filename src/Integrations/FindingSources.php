@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Integrations;
+namespace Bpmore\A11yState\Integrations;
 
 use DateTimeImmutable;
 
