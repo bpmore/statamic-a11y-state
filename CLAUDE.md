@@ -9,7 +9,7 @@ protect that.
 
 ## THE PRODUCT
 
-- Grange generates and maintains the accessibility statement and keeps the
+- A11y State generates and maintains the accessibility statement and keeps the
   evidence behind it. It does not test the site. It is not a VPAT or ACR
   generator. It is not legal advice, and it says so in the README, the
   control panel and every generated document.
@@ -47,8 +47,8 @@ protect that.
   exception is `Statement\StatementRoute`, which reads config and is named
   for the seam it sits on.
 - The integrations are adapters behind `FindingSource` with a null source.
-  Grange installs and works with no other `bpmore/*` addon, and the test
-  suite proves it by booting Grange alone. An adapter resolves the other
+  A11y State installs and works with no other `bpmore/*` addon, and the test
+  suite proves it by booting A11y State alone. An adapter resolves the other
   addon's classes by name and asks `isAvailable()` before doing anything.
 - Every controller and the command go through `Statements`, so a rule is
   applied the same way from every surface.
@@ -59,7 +59,7 @@ protect that.
 ## CONTROL PANEL
 
 - Utility views compile as Vue templates. Every data value goes through
-  `@grangeText`, never `{{ }}`. A directive glued to a word (`x@endif`) is
+  `@a11yStateText`, never `{{ }}`. A directive glued to a word (`x@endif`) is
   printed as text; leave whitespace around directives.
 - Native form controls with visible labels, inside plain forms, so every
   screen works with no script. No `aria-label` on non-interactive elements.
@@ -68,8 +68,8 @@ protect that.
   `align-top`, `border-amber-600` and `prose-invert` are not in it (checked
   against Statamic 6.31); `ps-*`, `border-amber-400`, `align-middle` are.
   Check `resources/dist/build/assets/app-*.css` before using a new one.
-- The directive is `@grangeText`, the utility slug `grange`, the permission
-  group `grange`, the route `/accessibility-statement`. Accessibility Report
+- The directive is `@a11yStateText`, the utility slug `a11y-state`, the permission
+  group `a11y-state`, the route `/accessibility-statement`. A11y Report
   owns `@plain`, `a11y-report`, and `/accessibility`. Do not collide.
 
 ## TESTING

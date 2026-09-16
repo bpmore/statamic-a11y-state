@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Statement;
+namespace Bpmore\A11yState\Statement;
 
 /**
  * The claim a statement makes, in the W3C's words.

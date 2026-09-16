@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use Bpmore\Grange\Evidence\Actions;
-use Bpmore\Grange\Evidence\EvidenceLog;
-use Bpmore\Grange\Evidence\Export;
-use Bpmore\Grange\Evidence\Filter;
-use Bpmore\Grange\Evidence\InMemoryEvidenceLog;
-use Bpmore\Grange\Evidence\Record;
-use Bpmore\Grange\Evidence\RecordExists;
-use Bpmore\Grange\Evidence\UnknownPredecessor;
-use Bpmore\Grange\Evidence\YamlEvidenceLog;
+use Bpmore\A11yState\Evidence\Actions;
+use Bpmore\A11yState\Evidence\EvidenceLog;
+use Bpmore\A11yState\Evidence\Export;
+use Bpmore\A11yState\Evidence\Filter;
+use Bpmore\A11yState\Evidence\InMemoryEvidenceLog;
+use Bpmore\A11yState\Evidence\Record;
+use Bpmore\A11yState\Evidence\RecordExists;
+use Bpmore\A11yState\Evidence\UnknownPredecessor;
+use Bpmore\A11yState\Evidence\YamlEvidenceLog;
 
 /*
  * Discriminating test 4: evidence immutability. Modifying a written record

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use Bpmore\Grange\Statement\ConformanceStatus;
-use Bpmore\Grange\Statement\Generator;
-use Bpmore\Grange\Statement\IncompleteStatement;
-use Bpmore\Grange\Statement\Problem;
-use Bpmore\Grange\Statement\Validator;
+use Bpmore\A11yState\Statement\ConformanceStatus;
+use Bpmore\A11yState\Statement\Generator;
+use Bpmore\A11yState\Statement\IncompleteStatement;
+use Bpmore\A11yState\Statement\Problem;
+use Bpmore\A11yState\Statement\Validator;
 
 /*
  * Discriminating test 1: refusal to overclaim. With one open exception at
@@ -84,7 +84,7 @@ it('the default threshold refuses every open exception, because fully conformant
         ->withExceptions([exception('typo', 'minor')])
         ->withAttestation(attestation());
 
-    $config = grangeConfig();
+    $config = a11yStateConfig();
     expect($config['overclaim_severity'])->toBe('minor');
 
     $problems = checker($config['overclaim_severity'])->check($statement, at());

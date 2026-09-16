@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Http\Controllers;
+namespace Bpmore\A11yState\Http\Controllers;
 
-use Bpmore\Grange\Statement\Dates;
-use Bpmore\Grange\Statement\IncompleteStatement;
-use Bpmore\Grange\Statement\Overclaim;
-use Bpmore\Grange\Statements;
+use Bpmore\A11yState\Statement\Dates;
+use Bpmore\A11yState\Statement\IncompleteStatement;
+use Bpmore\A11yState\Statement\Overclaim;
+use Bpmore\A11yState\Statements;
 use Illuminate\Http\Request;
 use Statamic\Facades\User;
 use Statamic\Http\Controllers\CP\CpController;
@@ -23,7 +23,7 @@ final class AttestController extends CpController
         abort_unless(User::current()?->can('attest accessibility conformance'), 403);
 
         $site = StatementPageData::site($request);
-        $to = StatementPageData::urls($site)['index'].'#grange-attest';
+        $to = StatementPageData::urls($site)['index'].'#a11y-state-attest';
 
         $name = trim((string) $request->input('attestation.name', ''));
         $date = trim((string) $request->input('attestation.date', ''));

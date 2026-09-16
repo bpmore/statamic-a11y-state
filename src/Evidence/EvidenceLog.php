@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Evidence;
+namespace Bpmore\A11yState\Evidence;
 
 /**
  * The evidence log. Append and read. There is no update and no delete on

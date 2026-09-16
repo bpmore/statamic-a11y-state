@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Http\Controllers;
+namespace Bpmore\A11yState\Http\Controllers;
 
-use Bpmore\Grange\Statement\HtmlRenderer;
-use Bpmore\Grange\Statement\IncompleteStatement;
-use Bpmore\Grange\Statements;
+use Bpmore\A11yState\Statement\HtmlRenderer;
+use Bpmore\A11yState\Statement\IncompleteStatement;
+use Bpmore\A11yState\Statements;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Statamic\Http\Controllers\CP\CpController;
@@ -31,8 +31,8 @@ final class PreviewController extends CpController
         }
 
         return Inertia::render('utilities/Show', [
-            'title' => 'Accessibility Statement: Preview',
-            'html' => view('grange::utilities.preview', [
+            'title' => 'A11y State: Preview',
+            'html' => view('a11y-state::utilities.preview', [
                 'site' => $site,
                 'html' => $html,
                 'problems' => $problems,

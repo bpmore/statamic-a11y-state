@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Statement;
+namespace Bpmore\A11yState\Statement;
 
 /**
  * One headed part of the document. Paragraphs first, then a list, which is

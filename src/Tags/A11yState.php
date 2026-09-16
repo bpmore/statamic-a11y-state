@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Tags;
+namespace Bpmore\A11yState\Tags;
 
-use Bpmore\Grange\Statement\HtmlRenderer;
-use Bpmore\Grange\Statements;
+use Bpmore\A11yState\Statement\HtmlRenderer;
+use Bpmore\A11yState\Statements;
 use Statamic\Facades\Site;
 use Statamic\Tags\Tags;
 
 /**
- * `{{ grange:statement }}` in Antlers, `<s:grange:statement />` in Blade.
+ * `{{ a11y_state:statement }}` in Antlers, `<s:a11y_state:statement />` in Blade.
  *
  * Renders the generated statement for the current site as an HTML
  * fragment, headings from the level the `heading` parameter names (2 by
@@ -21,7 +21,7 @@ use Statamic\Tags\Tags;
  * it says something. The notice is plain text and true; it is not the
  * statement and does not claim to be.
  */
-class Grange extends Tags
+class A11yState extends Tags
 {
     public function statement(): string
     {
@@ -36,7 +36,7 @@ class Grange extends Tags
         if ($document === null) {
             $h = max(1, min(6, $level));
 
-            return "<article class=\"grange-statement grange-statement--unavailable\" lang=\"en\"><h{$h}>Accessibility statement</h{$h}><p>An accessibility statement for this site is being prepared and is not yet published.</p></article>";
+            return "<article class=\"a11y-state-statement a11y-state-statement--unavailable\" lang=\"en\"><h{$h}>Accessibility statement</h{$h}><p>An accessibility statement for this site is being prepared and is not yet published.</p></article>";
         }
 
         return (new HtmlRenderer)->render($document, $level);

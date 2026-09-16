@@ -1,6 +1,6 @@
 # Profiles: where each disclosure comes from
 
-Every disclosure in every profile in `config/statamic-grange.php` is traced
+Every disclosure in every profile in `config/statamic-a11y-state.php` is traced
 here to the text that asks for it. Where a regime's own text does not ask
 for a disclosure, the field is marked **inferred** and the source is the
 W3C model it was taken from instead. Nothing in this file is legal advice,

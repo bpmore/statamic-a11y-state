@@ -1,5 +1,5 @@
 {
-    "name": "bpmore/statamic-grange",
+    "name": "bpmore/statamic-a11y-state",
     "description": "Generates and maintains a site's accessibility statement, refuses to claim more than the evidence supports, and keeps the evidence.",
     "keywords": [
         "statamic",
@@ -28,12 +28,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Bpmore\\Grange\\": "src/"
+            "Bpmore\\A11yState\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Bpmore\\Grange\\Tests\\": "tests/"
+            "Bpmore\\A11yState\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -41,12 +41,12 @@
     },
     "extra": {
         "statamic": {
-            "name": "Grange",
-            "slug": "statamic-grange"
+            "name": "A11y State",
+            "slug": "statamic-a11y-state"
         },
         "laravel": {
             "providers": [
-                "Bpmore\\Grange\\ServiceProvider"
+                "Bpmore\\A11yState\\ServiceProvider"
             ]
         }
     },

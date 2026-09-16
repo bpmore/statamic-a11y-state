@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Integrations;
+namespace Bpmore\A11yState\Integrations;
 
-use Bpmore\Grange\Evidence\Actions;
-use Bpmore\Grange\Evidence\Record;
-use Bpmore\Grange\Statement\Dates;
-use Bpmore\Grange\Statement\KnownException;
-use Bpmore\Grange\Statement\Severity;
+use Bpmore\A11yState\Evidence\Actions;
+use Bpmore\A11yState\Evidence\Record;
+use Bpmore\A11yState\Statement\Dates;
+use Bpmore\A11yState\Statement\KnownException;
+use Bpmore\A11yState\Statement\Severity;
 use DateTimeImmutable;
 
 /**
- * Accessibility Report's open issues as known exceptions, and its fixes as
+ * A11y Report's open issues as known exceptions, and its fixes as
  * evidence. Optional: when the report is not installed, or is installed
  * and has never run, this source says it is unavailable and is skipped.
  *
@@ -124,7 +124,7 @@ final class A11yReportSource implements FindingSource
             $records[] = new Record(
                 id: self::NAME.'-fixed-'.$row->fingerprint,
                 at: Dates::moment($resolved),
-                actor: is_string($row->updated_by) && $row->updated_by !== '' ? $row->updated_by : 'Accessibility Report scan',
+                actor: is_string($row->updated_by) && $row->updated_by !== '' ? $row->updated_by : 'A11y Report scan',
                 action: Actions::FIXED,
                 criterion: isset($criteria[0]) && is_string($criteria[0]) ? $criteria[0] : null,
                 subject: (string) $row->path,

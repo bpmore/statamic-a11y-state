@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Integrations;
+namespace Bpmore\A11yState\Integrations;
 
-use Bpmore\Grange\Evidence\Record;
-use Bpmore\Grange\Statement\KnownException;
+use Bpmore\A11yState\Evidence\Record;
+use Bpmore\A11yState\Statement\KnownException;
 use DateTimeImmutable;
 
 /**
  * Where findings come from when something else on the site is testing it.
  *
- * Accessibility Report, Accessibility Gate and Accessibility Docs may be
+ * A11y Report, A11y Gate and A11y Docs may be
  * installed; none of them has to be. Each adapter answers two questions:
  * what is open now, which joins the known exceptions, and what was fixed
  * since a moment, which becomes evidence. With nothing installed the null

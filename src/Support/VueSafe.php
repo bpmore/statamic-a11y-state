@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Support;
+namespace Bpmore\A11yState\Support;
 
 /**
  * Text for a view that Vue will compile.
@@ -13,7 +13,7 @@ namespace Bpmore\Grange\Support;
  * Vue as an interpolation and the whole page fails to compile, blank, with
  * no exception on the server. Vue finds its delimiters in the raw source
  * before it decodes entities, so a brace written as an entity is safe.
- * Learned by Accessibility Report; the same helper under this namespace.
+ * Learned by A11y Report; the same helper under this namespace.
  */
 final class VueSafe
 {

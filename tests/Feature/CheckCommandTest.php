@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-use Bpmore\Grange\Commands\Check;
-use Bpmore\Grange\Statement\ConformanceStatus;
+use Bpmore\A11yState\Commands\Check;
+use Bpmore\A11yState\Statement\ConformanceStatus;
 use Illuminate\Support\Facades\Artisan;
 
 /*
- * `php please grange:check`: exit codes, the JSON contract, and the
+ * `php please a11y:state:check`: exit codes, the JSON contract, and the
  * staleness flag (discriminating test 5, the command half).
  */
 
 function check(array $options = []): array
 {
-    $code = Artisan::call('statamic:grange:check', $options);
+    $code = Artisan::call('statamic:a11y:state:check', $options);
 
     return [$code, Artisan::output()];
 }

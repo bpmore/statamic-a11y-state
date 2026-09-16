@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use Bpmore\Grange\Statement\ConformanceStatus;
-use Bpmore\Grange\Statement\Generator;
-use Bpmore\Grange\Statement\HtmlRenderer;
-use Bpmore\Grange\Statement\MarkdownRenderer;
-use Bpmore\Grange\Statement\Section;
+use Bpmore\A11yState\Statement\ConformanceStatus;
+use Bpmore\A11yState\Statement\Generator;
+use Bpmore\A11yState\Statement\HtmlRenderer;
+use Bpmore\A11yState\Statement\MarkdownRenderer;
+use Bpmore\A11yState\Statement\Section;
 
-function generate(\Bpmore\Grange\Statement\Statement $statement, array $external = [], ?int $responseDays = null): \Bpmore\Grange\Statement\Document
+function generate(\Bpmore\A11yState\Statement\Statement $statement, array $external = [], ?int $responseDays = null): \Bpmore\A11yState\Statement\Document
 {
     return (new Generator(profiles(), checker()))->generate($statement, at(), $external, 'Example Site', $responseDays);
 }

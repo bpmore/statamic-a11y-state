@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Bpmore\Grange\Statement\Statement;
+use Bpmore\A11yState\Statement\Statement;
 
 /*
  * Discriminating test 7: profile isolation. Switching profiles does not

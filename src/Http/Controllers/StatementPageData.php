@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Http\Controllers;
+namespace Bpmore\A11yState\Http\Controllers;
 
-use Bpmore\Grange\ServiceProvider;
-use Bpmore\Grange\Statement\ConformanceStatus;
-use Bpmore\Grange\Statement\Problem;
-use Bpmore\Grange\Statement\Severity;
-use Bpmore\Grange\Statement\Staleness;
-use Bpmore\Grange\Statement\Statement;
-use Bpmore\Grange\Statements;
+use Bpmore\A11yState\ServiceProvider;
+use Bpmore\A11yState\Statement\ConformanceStatus;
+use Bpmore\A11yState\Statement\Problem;
+use Bpmore\A11yState\Statement\Severity;
+use Bpmore\A11yState\Statement\Staleness;
+use Bpmore\A11yState\Statement\Statement;
+use Bpmore\A11yState\Statements;
 use Illuminate\Http\Request;
 use Statamic\Facades\Site;
 use Statamic\Facades\User;
@@ -54,7 +54,7 @@ final class StatementPageData
             'errors' => array_values(array_filter($problems, fn (Problem $p) => $p->isError())),
             'warnings' => array_values(array_filter($problems, fn (Problem $p) => ! $p->isError())),
             'stale' => array_values(array_filter($problems, fn (Problem $p) => $p->code === Problem::STALE))[0] ?? null,
-            'ageDays' => Staleness::ageInDays($statement, \Bpmore\Grange\Statement\Dates::now()),
+            'ageDays' => Staleness::ageInDays($statement, \Bpmore\A11yState\Statement\Dates::now()),
             'blocking' => $statements->blocking($statement),
             'external' => $external,
             'externalSource' => $statements->findings()->name(),
@@ -63,11 +63,11 @@ final class StatementPageData
             'canEdit' => (bool) User::current()?->can('edit accessibility statement'),
             'canAttest' => (bool) User::current()?->can('attest accessibility conformance'),
             'urls' => self::urls($site),
-            'staleAfterDays' => (int) config('statamic-grange.stale_after_days', 365),
-            'overclaimSeverity' => (string) config('statamic-grange.overclaim_severity', 'minor'),
+            'staleAfterDays' => (int) config('statamic-a11y-state.stale_after_days', 365),
+            'overclaimSeverity' => (string) config('statamic-a11y-state.overclaim_severity', 'minor'),
             'responseDays' => ServiceProvider::responseDays(),
             'publicUrl' => self::publicUrl($site),
-            'disclaimer' => \Bpmore\Grange\Statement\Generator::DISCLAIMER,
+            'disclaimer' => \Bpmore\A11yState\Statement\Generator::DISCLAIMER,
         ];
     }
 
@@ -87,17 +87,17 @@ final class StatementPageData
 
         return [
             'index' => cp_route('utilities.index').'/'.ServiceProvider::UTILITY.$q,
-            'save' => cp_route('utilities.grange.save'),
-            'attest' => cp_route('utilities.grange.attest'),
-            'preview' => cp_route('utilities.grange.preview').$q,
-            'exportHtml' => cp_route('utilities.grange.export', ['format' => 'html']).$q,
-            'exportMarkdown' => cp_route('utilities.grange.export', ['format' => 'md']).$q,
-            'evidence' => cp_route('utilities.grange.evidence').$q,
-            'evidenceAppend' => cp_route('utilities.grange.evidence.append'),
-            'evidenceCsv' => cp_route('utilities.grange.evidence.export', ['format' => 'csv']),
-            'evidenceJson' => cp_route('utilities.grange.evidence.export', ['format' => 'json']),
-            'feedback' => cp_route('utilities.grange.feedback').$q,
-            'feedbackAcknowledge' => cp_route('utilities.grange.feedback.acknowledge'),
+            'save' => cp_route('utilities.a11y-state.save'),
+            'attest' => cp_route('utilities.a11y-state.attest'),
+            'preview' => cp_route('utilities.a11y-state.preview').$q,
+            'exportHtml' => cp_route('utilities.a11y-state.export', ['format' => 'html']).$q,
+            'exportMarkdown' => cp_route('utilities.a11y-state.export', ['format' => 'md']).$q,
+            'evidence' => cp_route('utilities.a11y-state.evidence').$q,
+            'evidenceAppend' => cp_route('utilities.a11y-state.evidence.append'),
+            'evidenceCsv' => cp_route('utilities.a11y-state.evidence.export', ['format' => 'csv']),
+            'evidenceJson' => cp_route('utilities.a11y-state.evidence.export', ['format' => 'json']),
+            'feedback' => cp_route('utilities.a11y-state.feedback').$q,
+            'feedbackAcknowledge' => cp_route('utilities.a11y-state.feedback.acknowledge'),
         ];
     }
 
@@ -121,7 +121,7 @@ final class StatementPageData
 
     private static function publicUrl(string $site): ?string
     {
-        $route = config('statamic-grange.route');
+        $route = config('statamic-a11y-state.route');
 
         if (! is_string($route) || trim($route, '/ ') === '') {
             return null;

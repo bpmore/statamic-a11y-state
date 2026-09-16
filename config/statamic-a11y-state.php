@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * Grange keeps a site's accessibility statement and the evidence behind it.
+ * A11y State keeps a site's accessibility statement and the evidence behind it.
  * Nothing in this file is legal advice. The profiles below say which
  * disclosures a regime expects a statement to contain and where that
  * expectation is written down; they do not say what the law means, and
@@ -18,12 +18,12 @@ return [
     |---------------------------------------------------------------------------
     |
     | Every site gets its statement at 'route'. Not '/accessibility', which
-    | Accessibility Report already serves when it is installed; the two can
+    | A11y Report already serves when it is installed; the two can
     | run side by side and a site with both picks one to link to. Set to
-    | null for no page, and use the `{{ grange:statement }}` tag inside a
+    | null for no page, and use the `{{ a11y_state:statement }}` tag inside a
     | page of your own instead.
     |
-    | 'view' and 'layout' work as they do in Accessibility Report: null means
+    | 'view' and 'layout' work as they do in A11y Report: null means
     | this addon's own one-line template inside the site's system layout, or
     | inside a plain shell of its own when the site has no such layout.
     |
@@ -48,8 +48,8 @@ return [
     */
 
     'storage' => [
-        'statements' => 'content/grange/statements',
-        'evidence' => 'content/grange/evidence',
+        'statements' => 'content/a11y-state/statements',
+        'evidence' => 'content/a11y-state/evidence',
     ],
 
     /*
@@ -65,7 +65,7 @@ return [
     | the site's decision and the statement will still list them.
     |
     | 'stale_after_days': an assessment older than this is flagged in the
-    | control panel and by `grange:check`. The published statement is not
+    | control panel and by `a11y:state:check`. The published statement is not
     | changed. 365 follows the EU model statement's recommendation that the
     | claims in a statement are reviewed "at least once per year".
     |

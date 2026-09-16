@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use Bpmore\Grange\Statement\Attestation;
-use Bpmore\Grange\Statement\AttestationRequired;
-use Bpmore\Grange\Statement\ConformanceStatus;
-use Bpmore\Grange\Statement\Problem;
-use Bpmore\Grange\Storage\Guard;
-use Bpmore\Grange\Storage\YamlStatementRepository;
+use Bpmore\A11yState\Statement\Attestation;
+use Bpmore\A11yState\Statement\AttestationRequired;
+use Bpmore\A11yState\Statement\ConformanceStatus;
+use Bpmore\A11yState\Statement\Problem;
+use Bpmore\A11yState\Storage\Guard;
+use Bpmore\A11yState\Storage\YamlStatementRepository;
 
 /*
  * Discriminating test 2: attestation required. "Fully conformant" cannot be

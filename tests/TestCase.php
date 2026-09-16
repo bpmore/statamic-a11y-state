@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Tests;
+namespace Bpmore\A11yState\Tests;
 
-use Bpmore\Grange\ServiceProvider;
+use Bpmore\A11yState\ServiceProvider;
 use Statamic\Testing\AddonTestCase;
 use Statamic\Testing\Concerns\PreventsSavingStacheItemsToDisk;
 
 /**
  * A booted Statamic with this addon and nothing else of ours in it. That
  * is on purpose: the standalone case is the one the brief says must work,
- * and a suite that always had Accessibility Report present could not
+ * and a suite that always had A11y Report present could not
  * prove it.
  */
 abstract class TestCase extends AddonTestCase
@@ -42,11 +42,11 @@ abstract class TestCase extends AddonTestCase
         // The statement and the log in a directory of this test's own,
         // named absolutely so the provider does not resolve it under the
         // harness's base path.
-        $this->storage = sys_get_temp_dir().'/grange-feature-'.bin2hex(random_bytes(4));
+        $this->storage = sys_get_temp_dir().'/a11y-state-feature-'.bin2hex(random_bytes(4));
         mkdir($this->storage, 0775, true);
 
-        config()->set('statamic-grange.storage.statements', $this->storage.'/statements');
-        config()->set('statamic-grange.storage.evidence', $this->storage.'/evidence');
+        config()->set('statamic-a11y-state.storage.statements', $this->storage.'/statements');
+        config()->set('statamic-a11y-state.storage.evidence', $this->storage.'/evidence');
 
         $this->forgetLeakedFixtures();
     }

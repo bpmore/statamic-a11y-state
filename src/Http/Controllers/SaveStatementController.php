@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Http\Controllers;
+namespace Bpmore\A11yState\Http\Controllers;
 
-use Bpmore\Grange\Evidence\Actions;
-use Bpmore\Grange\Evidence\Record;
-use Bpmore\Grange\Statement\AttestationRequired;
-use Bpmore\Grange\Statement\ConformanceStatus;
-use Bpmore\Grange\Statement\Dates;
-use Bpmore\Grange\Statement\KnownException;
-use Bpmore\Grange\Statement\Overclaim;
-use Bpmore\Grange\Statement\Severity;
-use Bpmore\Grange\Statements;
+use Bpmore\A11yState\Evidence\Actions;
+use Bpmore\A11yState\Evidence\Record;
+use Bpmore\A11yState\Statement\AttestationRequired;
+use Bpmore\A11yState\Statement\ConformanceStatus;
+use Bpmore\A11yState\Statement\Dates;
+use Bpmore\A11yState\Statement\KnownException;
+use Bpmore\A11yState\Statement\Overclaim;
+use Bpmore\A11yState\Statement\Severity;
+use Bpmore\A11yState\Statements;
 use Illuminate\Http\Request;
 use Statamic\Facades\User;
 use Statamic\Http\Controllers\CP\CpController;
@@ -60,7 +60,7 @@ final class SaveStatementController extends CpController
         $disclosures = [];
 
         foreach ($profile->disclosures as $d) {
-            if (in_array($d->key, \Bpmore\Grange\Statement\Disclosure::STRUCTURED, true)) {
+            if (in_array($d->key, \Bpmore\A11yState\Statement\Disclosure::STRUCTURED, true)) {
                 continue;
             }
 

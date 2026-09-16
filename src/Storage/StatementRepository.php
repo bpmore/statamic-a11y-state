@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Storage;
+namespace Bpmore\A11yState\Storage;
 
-use Bpmore\Grange\Statement\Statement;
+use Bpmore\A11yState\Statement\Statement;
 
 /**
  * Where a site's statement is kept. One per site.
@@ -19,7 +19,7 @@ interface StatementRepository
     public function find(string $site): ?Statement;
 
     /**
-     * @throws \Bpmore\Grange\Statement\AttestationRequired
+     * @throws \Bpmore\A11yState\Statement\AttestationRequired
      */
     public function save(Statement $statement): void;
 

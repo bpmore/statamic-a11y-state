@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Storage;
+namespace Bpmore\A11yState\Storage;
 
-use Bpmore\Grange\Statement\Statement;
+use Bpmore\A11yState\Statement\Statement;
 use RuntimeException;
 use Symfony\Component\Yaml\Yaml;
 

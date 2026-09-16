@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use Bpmore\Grange\Statement\ConformanceStatus;
-use Bpmore\Grange\Statement\Disclosure;
-use Bpmore\Grange\Statement\Generator;
-use Bpmore\Grange\Statement\IncompleteStatement;
-use Bpmore\Grange\Statement\Problem;
-use Bpmore\Grange\Statement\Validator;
+use Bpmore\A11yState\Statement\ConformanceStatus;
+use Bpmore\A11yState\Statement\Disclosure;
+use Bpmore\A11yState\Statement\Generator;
+use Bpmore\A11yState\Statement\IncompleteStatement;
+use Bpmore\A11yState\Statement\Problem;
+use Bpmore\A11yState\Statement\Validator;
 
 /*
  * Discriminating test 3: required disclosure enforcement. Each profile,
@@ -19,7 +19,7 @@ use Bpmore\Grange\Statement\Validator;
 
 $cases = [];
 
-foreach (grangeConfig()['profiles'] as $handle => $spec) {
+foreach (a11yStateConfig()['profiles'] as $handle => $spec) {
     foreach ($spec['disclosures'] as $key => $d) {
         if (($d['required'] ?? false) === true && ! in_array($key, Disclosure::STRUCTURED, true)) {
             $cases["{$handle}: {$key}"] = [$handle, $key];
@@ -40,7 +40,7 @@ it('fails generation when a required disclosure is missing, and names it', funct
 
     $disclosures = $complete->disclosures;
     unset($disclosures[$key]);
-    $missing = new \Bpmore\Grange\Statement\Statement($complete->site, $complete->profile, $complete->status, $disclosures, $complete->exceptions);
+    $missing = new \Bpmore\A11yState\Statement\Statement($complete->site, $complete->profile, $complete->status, $disclosures, $complete->exceptions);
 
     try {
         $generator->generate($missing, at());

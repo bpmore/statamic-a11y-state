@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Evidence;
+namespace Bpmore\A11yState\Evidence;
 
 /**
  * The log in an array. For tests of everything that reads a log, and for

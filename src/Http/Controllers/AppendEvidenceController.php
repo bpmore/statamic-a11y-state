@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Http\Controllers;
+namespace Bpmore\A11yState\Http\Controllers;
 
-use Bpmore\Grange\Evidence\Actions;
-use Bpmore\Grange\Evidence\Record;
-use Bpmore\Grange\Evidence\UnknownPredecessor;
-use Bpmore\Grange\Statement\Dates;
-use Bpmore\Grange\Statements;
+use Bpmore\A11yState\Evidence\Actions;
+use Bpmore\A11yState\Evidence\Record;
+use Bpmore\A11yState\Evidence\UnknownPredecessor;
+use Bpmore\A11yState\Statement\Dates;
+use Bpmore\A11yState\Statements;
 use Illuminate\Http\Request;
 use Statamic\Facades\User;
 use Statamic\Http\Controllers\CP\CpController;
@@ -38,13 +38,13 @@ final class AppendEvidenceController extends CpController
 
         if (! Actions::isKnown($action) || $action === Actions::ATTESTED) {
             // Attestations are written by the attestation step and nowhere else.
-            return redirect()->to($to.'#grange-record')->withInput()->with('error', 'Pick what was done.');
+            return redirect()->to($to.'#a11y-state-record')->withInput()->with('error', 'Pick what was done.');
         }
 
         $notes = trim((string) $request->input('notes', ''));
 
         if ($notes === '') {
-            return redirect()->to($to.'#grange-record')->withInput()->with('error', 'Say what happened. A record with no notes is a date and nothing else.');
+            return redirect()->to($to.'#a11y-state-record')->withInput()->with('error', 'Say what happened. A record with no notes is a date and nothing else.');
         }
 
         $supersedes = trim((string) $request->input('supersedes', ''));
@@ -65,7 +65,7 @@ final class AppendEvidenceController extends CpController
 
             $statements->log()->append($record);
         } catch (UnknownPredecessor|\InvalidArgumentException $e) {
-            return redirect()->to($to.'#grange-record')->withInput()->with('error', $e->getMessage());
+            return redirect()->to($to.'#a11y-state-record')->withInput()->with('error', $e->getMessage());
         }
 
         return redirect()->to($to)->with('success', 'Record '.$record->id.' written.');

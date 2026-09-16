@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Feedback;
+namespace Bpmore\A11yState\Feedback;
 
-use Bpmore\Grange\Evidence\Actions;
-use Bpmore\Grange\Evidence\Record;
-use Bpmore\Grange\Statement\Dates;
+use Bpmore\A11yState\Evidence\Actions;
+use Bpmore\A11yState\Evidence\Record;
+use Bpmore\A11yState\Statement\Dates;
 use DateTimeImmutable;
 
 /**

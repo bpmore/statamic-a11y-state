@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Http\Controllers;
+namespace Bpmore\A11yState\Http\Controllers;
 
-use Bpmore\Grange\Statement\StatementRoute;
+use Bpmore\A11yState\Statement\StatementRoute;
 use Illuminate\Http\Request;
 use Statamic\Http\Controllers\FrontendController;
 use Statamic\View\View;
@@ -16,7 +16,7 @@ use Statamic\View\View;
  *
  * Whether a page is served at all is the tag's decision: an incomplete
  * statement renders a short, honest notice rather than a document with
- * holes in it, and never a 500. See `Tags\Grange`.
+ * holes in it, and never a 500. See `Tags\A11yState`.
  */
 final class StatementController extends FrontendController
 {

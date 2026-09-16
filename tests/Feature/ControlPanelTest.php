@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Bpmore\Grange\Evidence\Actions;
-use Bpmore\Grange\Evidence\Filter;
-use Bpmore\Grange\Statement\ConformanceStatus;
-use Bpmore\Grange\Statements;
+use Bpmore\A11yState\Evidence\Actions;
+use Bpmore\A11yState\Evidence\Filter;
+use Bpmore\A11yState\Statement\ConformanceStatus;
+use Bpmore\A11yState\Statements;
 
 /*
  * The utility: the editor, the attestation step, the evidence screen and
@@ -46,7 +46,7 @@ it('renders the editor as a well-formed Vue template with the disclaimer, for a 
 });
 
 it('saves a statement from the editor and writes an evidence record saying so', function () {
-    $this->post(cp_route('utilities.grange.save'), fields())
+    $this->post(cp_route('utilities.a11y-state.save'), fields())
         ->assertRedirect()
         ->assertSessionHas('success');
 
@@ -61,7 +61,7 @@ it('saves a statement from the editor and writes an evidence record saying so', 
 });
 
 it('refuses "fully conformant" from the status control with an explanation', function () {
-    $this->post(cp_route('utilities.grange.save'), fields(status: 'fully-conformant'))
+    $this->post(cp_route('utilities.a11y-state.save'), fields(status: 'fully-conformant'))
         ->assertRedirect()
         ->assertSessionHas('error', fn ($m) => str_contains($m, 'attestation step'));
 
@@ -69,7 +69,7 @@ it('refuses "fully conformant" from the status control with an explanation', fun
 });
 
 it('adds an exception, then refuses the attestation naming it, then allows it once resolved', function () {
-    $this->post(cp_route('utilities.grange.save'), fields(override: [
+    $this->post(cp_route('utilities.a11y-state.save'), fields(override: [
         'new_exception' => ['description' => 'Carousel cannot be paused', 'severity' => 'serious', 'criterion' => '2.2.2', 'page' => '/home'],
     ]))->assertSessionHas('success');
 
@@ -79,7 +79,7 @@ it('adds an exception, then refuses the attestation naming it, then allows it on
 
     $attest = ['site' => 'default', 'attestation' => ['name' => 'Grace Example', 'date' => '2026-09-14', 'basis' => 'Manual audit of every template, 12 September 2026.']];
 
-    $this->post(cp_route('utilities.grange.attest'), $attest)
+    $this->post(cp_route('utilities.a11y-state.attest'), $attest)
         ->assertRedirect()
         ->assertSessionHas('error', fn ($m) => str_contains($m, 'Carousel cannot be paused') && str_contains($m, 'refused'));
 
@@ -90,9 +90,9 @@ it('adds an exception, then refuses the attestation naming it, then allows it on
     expect($text)->toContain('Not available');
     expect($text)->toContain('Carousel cannot be paused');
 
-    $this->post(cp_route('utilities.grange.save'), fields(override: ['resolve' => [$id]]))->assertSessionHas('success');
+    $this->post(cp_route('utilities.a11y-state.save'), fields(override: ['resolve' => [$id]]))->assertSessionHas('success');
 
-    $this->post(cp_route('utilities.grange.attest'), $attest)->assertSessionHas('success');
+    $this->post(cp_route('utilities.a11y-state.attest'), $attest)->assertSessionHas('success');
 
     $statement = app(Statements::class)->for('default');
     expect($statement->status)->toBe(ConformanceStatus::FullyConformant);
@@ -115,7 +115,7 @@ it('refuses an attestation with no name, no date, or no basis', function () {
         ['name' => 'Grace', 'date' => 'yesterday', 'basis' => 'x'],
         ['name' => 'Grace', 'date' => '2026-09-14', 'basis' => ' '],
     ] as $attestation) {
-        $this->post(cp_route('utilities.grange.attest'), ['site' => 'default', 'attestation' => $attestation])->assertSessionHas('error');
+        $this->post(cp_route('utilities.a11y-state.attest'), ['site' => 'default', 'attestation' => $attestation])->assertSessionHas('error');
     }
 
     expect(app(Statements::class)->for('default')->status)->toBe(ConformanceStatus::PartiallyConformant);
@@ -129,7 +129,7 @@ it('clears the attestation when the status is moved off fully conformant', funct
 
     expect(app(Statements::class)->for('default')->attestation)->not->toBeNull();
 
-    $this->post(cp_route('utilities.grange.save'), fields(status: 'partially-conformant'))->assertSessionHas('success');
+    $this->post(cp_route('utilities.a11y-state.save'), fields(status: 'partially-conformant'))->assertSessionHas('success');
 
     $statement = app(Statements::class)->for('default');
     expect($statement->status)->toBe(ConformanceStatus::PartiallyConformant);
@@ -137,14 +137,14 @@ it('clears the attestation when the status is moved off fully conformant', funct
 });
 
 it('warns on a profile switch and keeps the disclosures the new profile has no field for', function () {
-    $this->post(cp_route('utilities.grange.save'), fields('section508'))->assertSessionHas('success');
+    $this->post(cp_route('utilities.a11y-state.save'), fields('section508'))->assertSessionHas('success');
 
     // Looking before saving: the notice names what would be kept.
     $text = pageText(utilityHtml('?site=default&profile=w3c'));
     expect($text)->toContain('You are looking at the Generic (W3C) profile');
     expect($text)->toContain('relay_service');
 
-    $this->post(cp_route('utilities.grange.save'), fields('w3c'))
+    $this->post(cp_route('utilities.a11y-state.save'), fields('w3c'))
         ->assertSessionHas('success', fn ($m) => str_contains($m, 'kept and not shown') && str_contains($m, 'relay_service'));
 
     $statement = app(Statements::class)->for('default');
@@ -168,37 +168,37 @@ it('shows the stale notice in the editor without changing the statement', functi
 });
 
 it('previews the generated statement, or lists why it cannot', function () {
-    $this->get(cp_route('utilities.grange.preview').'?site=default')->assertOk();
-    $html = (string) json_decode(html_entity_decode((string) preg_replace('/^.*data-page="([^"]+)".*$/s', '$1', $this->get(cp_route('utilities.grange.preview').'?site=default')->getContent()), ENT_QUOTES | ENT_HTML5, 'UTF-8'), true)['props']['html'];
+    $this->get(cp_route('utilities.a11y-state.preview').'?site=default')->assertOk();
+    $html = (string) json_decode(html_entity_decode((string) preg_replace('/^.*data-page="([^"]+)".*$/s', '$1', $this->get(cp_route('utilities.a11y-state.preview').'?site=default')->getContent()), ENT_QUOTES | ENT_HTML5, 'UTF-8'), true)['props']['html'];
     assertVueTemplateIsWellFormed($html);
     expect($html)->toContain('cannot be generated yet');
 
     saveStatement();
-    $html = (string) json_decode(html_entity_decode((string) preg_replace('/^.*data-page="([^"]+)".*$/s', '$1', $this->get(cp_route('utilities.grange.preview').'?site=default')->getContent()), ENT_QUOTES | ENT_HTML5, 'UTF-8'), true)['props']['html'];
+    $html = (string) json_decode(html_entity_decode((string) preg_replace('/^.*data-page="([^"]+)".*$/s', '$1', $this->get(cp_route('utilities.a11y-state.preview').'?site=default')->getContent()), ENT_QUOTES | ENT_HTML5, 'UTF-8'), true)['props']['html'];
     assertVueTemplateIsWellFormed($html);
     expect(pageText($html))->toContain('Conformance status: Partially conformant');
 });
 
 it('exports the statement as Markdown and HTML, and refuses when incomplete', function () {
-    $this->get(cp_route('utilities.grange.export', ['format' => 'md']).'?site=default')->assertRedirect()->assertSessionHas('error');
+    $this->get(cp_route('utilities.a11y-state.export', ['format' => 'md']).'?site=default')->assertRedirect()->assertSessionHas('error');
 
     saveStatement();
 
-    $md = $this->get(cp_route('utilities.grange.export', ['format' => 'md']).'?site=default')->assertOk()->assertHeader('Content-Type', 'text/markdown; charset=UTF-8');
+    $md = $this->get(cp_route('utilities.a11y-state.export', ['format' => 'md']).'?site=default')->assertOk()->assertHeader('Content-Type', 'text/markdown; charset=UTF-8');
     expect($md->getContent())->toStartWith('# Accessibility statement');
 
-    $html = $this->get(cp_route('utilities.grange.export', ['format' => 'html']).'?site=default')->assertOk();
+    $html = $this->get(cp_route('utilities.a11y-state.export', ['format' => 'html']).'?site=default')->assertOk();
     expect($html->getContent())->toContain('<!DOCTYPE html>');
     expect($html->getContent())->toContain('<h1>Accessibility statement</h1>');
     expect($html->getContent())->toContain('not legal advice');
 
-    $this->get(cp_route('utilities.grange.export', ['format' => 'pdf']).'?site=default')->assertNotFound();
+    $this->get(cp_route('utilities.a11y-state.export', ['format' => 'pdf']).'?site=default')->assertNotFound();
 });
 
 it('writes, lists, filters and exports evidence, and has no route that changes or removes a record', function () {
-    $this->post(cp_route('utilities.grange.evidence.append'), ['site' => 'default', 'action' => 'assessed', 'criterion' => '1.4.3', 'subject' => '/home', 'notes' => 'Contrast checked with a meter'])
+    $this->post(cp_route('utilities.a11y-state.evidence.append'), ['site' => 'default', 'action' => 'assessed', 'criterion' => '1.4.3', 'subject' => '/home', 'notes' => 'Contrast checked with a meter'])
         ->assertSessionHas('success');
-    $this->post(cp_route('utilities.grange.evidence.append'), ['site' => 'default', 'action' => 'fixed', 'criterion' => '1.4.3', 'subject' => '/home', 'notes' => 'Button colour changed'])
+    $this->post(cp_route('utilities.a11y-state.evidence.append'), ['site' => 'default', 'action' => 'fixed', 'criterion' => '1.4.3', 'subject' => '/home', 'notes' => 'Button colour changed'])
         ->assertSessionHas('success');
 
     $all = app(Statements::class)->log()->all();
@@ -207,18 +207,18 @@ it('writes, lists, filters and exports evidence, and has no route that changes o
     $fixed = $all[1];
     expect($fixed->action)->toBe('fixed');
 
-    $this->post(cp_route('utilities.grange.evidence.append'), ['site' => 'default', 'action' => 'note', 'notes' => 'Correction: it was the link colour', 'supersedes' => $fixed->id])
+    $this->post(cp_route('utilities.a11y-state.evidence.append'), ['site' => 'default', 'action' => 'note', 'notes' => 'Correction: it was the link colour', 'supersedes' => $fixed->id])
         ->assertSessionHas('success');
-    $this->post(cp_route('utilities.grange.evidence.append'), ['site' => 'default', 'action' => 'note', 'notes' => 'x', 'supersedes' => 'nope'])
+    $this->post(cp_route('utilities.a11y-state.evidence.append'), ['site' => 'default', 'action' => 'note', 'notes' => 'x', 'supersedes' => 'nope'])
         ->assertSessionHas('error');
-    $this->post(cp_route('utilities.grange.evidence.append'), ['site' => 'default', 'action' => 'attested', 'notes' => 'x'])
+    $this->post(cp_route('utilities.a11y-state.evidence.append'), ['site' => 'default', 'action' => 'attested', 'notes' => 'x'])
         ->assertSessionHas('error');
-    $this->post(cp_route('utilities.grange.evidence.append'), ['site' => 'default', 'action' => 'note', 'notes' => ''])
+    $this->post(cp_route('utilities.a11y-state.evidence.append'), ['site' => 'default', 'action' => 'note', 'notes' => ''])
         ->assertSessionHas('error');
 
     expect(app(Statements::class)->log()->count())->toBe(3);
 
-    $html = (string) json_decode(html_entity_decode((string) preg_replace('/^.*data-page="([^"]+)".*$/s', '$1', $this->get(cp_route('utilities.grange.evidence').'?site=default&action=fixed')->getContent()), ENT_QUOTES | ENT_HTML5, 'UTF-8'), true)['props']['html'];
+    $html = (string) json_decode(html_entity_decode((string) preg_replace('/^.*data-page="([^"]+)".*$/s', '$1', $this->get(cp_route('utilities.a11y-state.evidence').'?site=default&action=fixed')->getContent()), ENT_QUOTES | ENT_HTML5, 'UTF-8'), true)['props']['html'];
     assertVueTemplateIsWellFormed($html);
     $text = pageText($html);
     expect($html)->toContain('3 records, 1 shown');
@@ -226,14 +226,14 @@ it('writes, lists, filters and exports evidence, and has no route that changes o
     expect($text)->toContain('Corrected by a later record');
     expect($text)->not->toContain('Contrast checked');
 
-    $csv = $this->get(cp_route('utilities.grange.evidence.export', ['format' => 'csv']))->assertOk()->getContent();
+    $csv = $this->get(cp_route('utilities.a11y-state.evidence.export', ['format' => 'csv']))->assertOk()->getContent();
     expect(substr_count($csv, "\n"))->toBe(4);
-    $json = json_decode($this->get(cp_route('utilities.grange.evidence.export', ['format' => 'json']).'?action=fixed')->assertOk()->getContent(), true);
+    $json = json_decode($this->get(cp_route('utilities.a11y-state.evidence.export', ['format' => 'json']).'?action=fixed')->assertOk()->getContent(), true);
     expect($json['count'])->toBe(1);
 
     // No route under the utility updates or deletes.
     $routes = collect(app('router')->getRoutes()->getRoutes())
-        ->filter(fn ($r) => str_starts_with((string) $r->getName(), 'statamic.cp.utilities.grange'))
+        ->filter(fn ($r) => str_starts_with((string) $r->getName(), 'statamic.cp.utilities.a11y-state'))
         ->map(fn ($r) => implode('|', $r->methods()).' '.$r->uri())
         ->values()->all();
     expect($routes)->not->toBe([]);
@@ -246,25 +246,25 @@ it('writes, lists, filters and exports evidence, and has no route that changes o
 
 it('refuses edits, attestations and records to a user without the permission, and lets them read', function () {
     saveStatement();
-    $this->actingAs(cpUser(['access cp', 'access utilities', 'access grange utility']));
+    $this->actingAs(cpUser(['access cp', 'access utilities', 'access a11y-state utility']));
 
-    $this->get(cp_route('utilities.index').'/grange')->assertOk();
-    $this->post(cp_route('utilities.grange.save'), fields())->assertForbidden();
-    $this->post(cp_route('utilities.grange.attest'), ['site' => 'default', 'attestation' => ['name' => 'G', 'date' => '2026-09-14', 'basis' => 'x']])->assertForbidden();
-    $this->post(cp_route('utilities.grange.evidence.append'), ['site' => 'default', 'action' => 'note', 'notes' => 'x'])->assertForbidden();
+    $this->get(cp_route('utilities.index').'/a11y-state')->assertOk();
+    $this->post(cp_route('utilities.a11y-state.save'), fields())->assertForbidden();
+    $this->post(cp_route('utilities.a11y-state.attest'), ['site' => 'default', 'attestation' => ['name' => 'G', 'date' => '2026-09-14', 'basis' => 'x']])->assertForbidden();
+    $this->post(cp_route('utilities.a11y-state.evidence.append'), ['site' => 'default', 'action' => 'note', 'notes' => 'x'])->assertForbidden();
 
     expect(pageText(utilityHtml()))->toContain('You can read this statement but not change it');
 });
 
 it('says so when no feedback form is configured, and reports the clock when one is', function () {
-    $page = fn () => (string) json_decode(html_entity_decode((string) preg_replace('/^.*data-page="([^"]+)".*$/s', '$1', $this->get(cp_route('utilities.grange.feedback').'?site=default')->getContent()), ENT_QUOTES | ENT_HTML5, 'UTF-8'), true)['props']['html'];
+    $page = fn () => (string) json_decode(html_entity_decode((string) preg_replace('/^.*data-page="([^"]+)".*$/s', '$1', $this->get(cp_route('utilities.a11y-state.feedback').'?site=default')->getContent()), ENT_QUOTES | ENT_HTML5, 'UTF-8'), true)['props']['html'];
 
     $html = $page();
     assertVueTemplateIsWellFormed($html);
     expect($html)->toContain('No feedback form configured');
 
-    config()->set('statamic-grange.feedback.form', 'accessibility');
-    config()->set('statamic-grange.feedback.response_days', 5);
+    config()->set('statamic-a11y-state.feedback.form', 'accessibility');
+    config()->set('statamic-a11y-state.feedback.response_days', 5);
 
     expect($page())->toContain('does not exist');
 
@@ -282,8 +282,8 @@ it('says so when no feedback form is configured, and reports the clock when one 
     expect($text)->toContain('The menu traps focus');
     expect($text)->toContain('Past the window');
 
-    $this->post(cp_route('utilities.grange.feedback.acknowledge'), ['site' => 'default', 'submission' => $old->id(), 'notes' => 'Replied by email'])->assertSessionHas('success');
-    $this->post(cp_route('utilities.grange.feedback.acknowledge'), ['site' => 'default', 'submission' => 'nope'])->assertSessionHas('error');
+    $this->post(cp_route('utilities.a11y-state.feedback.acknowledge'), ['site' => 'default', 'submission' => $old->id(), 'notes' => 'Replied by email'])->assertSessionHas('success');
+    $this->post(cp_route('utilities.a11y-state.feedback.acknowledge'), ['site' => 'default', 'submission' => 'nope'])->assertSessionHas('error');
 
     $html = $page();
     expect($html)->toContain('1 awaiting acknowledgment, 0 past the 5-day window');
@@ -294,7 +294,7 @@ it('says so when no feedback form is configured, and reports the clock when one 
     expect($records[0]->subject)->toBe($old->id());
 
     // And the command sees the same clock.
-    \Illuminate\Support\Facades\Artisan::call('statamic:grange:check', ['--json' => true]);
+    \Illuminate\Support\Facades\Artisan::call('statamic:a11y:state:check', ['--json' => true]);
     $json = json_decode(\Illuminate\Support\Facades\Artisan::output(), true);
     expect($json['feedback']['overdue'])->toBe(0);
     expect($json['feedback']['awaiting'])->toBe(1);

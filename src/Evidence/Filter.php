@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Bpmore\Grange\Evidence;
+namespace Bpmore\A11yState\Evidence;
 
-use Bpmore\Grange\Statement\Dates;
+use Bpmore\A11yState\Statement\Dates;
 
 /**
  * What the viewer and the export can narrow the log by. A filter is a view
