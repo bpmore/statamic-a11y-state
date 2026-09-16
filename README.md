@@ -51,7 +51,14 @@ the site's repository beside its content:
   made read-only after writing. A correction is a new record that names
   the one it corrects; both stay, and both are exported.
 
-Both paths can be moved in the config file. There is no database.
+Both paths can be moved in the config file. A site that already runs a
+database can keep the evidence log in a table instead: set
+`storage.evidence_driver` to `eloquent`, name a connection in
+`storage.evidence_connection` (or leave it null for the site's default),
+and run `php please a11y:state:install` once. The table's id is its
+primary key, so the database refuses a second write of the same record
+the way the file driver does, and the driver has no update and no delete
+either. The statement itself stays in YAML on both drivers.
 
 ## The rule that governs the design
 
@@ -194,6 +201,8 @@ Published to `config/statamic-a11y-state.php`. The keys:
 
 - `route`, `view`, `layout`: the public page.
 - `storage.statements`, `storage.evidence`: the two directories.
+- `storage.evidence_driver` (`yaml` or `eloquent`) and
+  `storage.evidence_connection`.
 - `overclaim_severity`: the severity at or above which an open exception
   refuses full conformance. `minor` by default.
 - `stale_after_days`: 365 by default, from the EU model statement's
@@ -211,14 +220,12 @@ Published to `config/statamic-a11y-state.php`. The keys:
 - It does not give legal advice, and the profiles do not say what the
   law means. They say what a statement under a regime is expected to
   contain and where that expectation is written down.
-- It does not store the evidence log in a database. The brief allows an
-  Eloquent driver as an option; it is not built, and the interface is
-  there for it.
 - It does not edit or delete evidence, and will not grow a way to.
 
 ## Verified, and not
 
-The suite is 118 tests, Pest, green on PHP 8.4 with Statamic 6.31. The
+The suite is 127 tests, Pest, green on PHP 8.4 with Statamic 6.31 and on
+PHP 8.2 with the oldest dependencies, in CI. The
 seven discriminating cases in the brief each have their own test, and
 each was mutation-tested: the rule it guards was broken and the test went
 red. The addon was installed by path on a scratch Statamic site with
@@ -229,8 +236,7 @@ the log, and `--json` was piped through `jq`. axe-core found no WCAG 2.1
 A or AA violation on the public page or any control panel screen, and a
 keyboard walk reached every control with a visible focus ring.
 
-Not done: a screen reader pass, PHP 8.2 and the oldest dependencies
-(the CI matrix runs both), and a production site.
+Not done: a screen reader pass, and a production site.
 
 ## Support
 

@@ -223,11 +223,11 @@ are legal questions about whether content is covered, not disclosures. The
 `exceptions` hint in the config file says so and sends the reader to
 counsel.
 
-**Open question for the owner:** whether `commitment`, `conformance_status`
-and `contact` should be required under a profile whose regime requires
-none of them. They are required here because a statement without them is
-not one by the W3C's minimum, and the brief's common disclosure set
-includes them. A site can set them optional in its published config.
+**Confirmed by the owner on 16 September 2026:** `commitment`,
+`conformance_status` and `contact` stay required under this profile
+although the regime requires none of them, because a statement without
+them is not one by the W3C's minimum, and the brief's common disclosure
+set includes them. A site can set them optional in its published config.
 
 ### aoda (Ontario)
 
@@ -248,12 +248,11 @@ includes them. A site can set them optional in its published config.
 | review_date | O | MAS endnote xiii * |
 | evaluation_report | O | W3C-gen * |
 
-**Open question for the owner:** s. 3(2) exempts small organisations from
-the commitment statement, and s. 14 applies WCAG to designated public
-sector and large organisations. The profile requires `commitment` of
-everyone. A small organisation under AODA can set it optional in its
-published config; whether the addon should offer an "aoda_small" profile is
-not decided here.
+**Confirmed by the owner on 16 September 2026:** the profile requires
+`commitment` of everyone, although s. 3(2) exempts small organisations and
+s. 14 applies WCAG to designated public sector and large organisations. A
+small organisation under AODA can set it optional in its published config.
+No separate "aoda_small" profile ships.
 
 ## Two things this file decides that the brief did not
 

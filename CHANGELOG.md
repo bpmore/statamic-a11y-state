@@ -2,6 +2,13 @@
 
 Newest first. Before 1.0, a breaking change raises the minor version.
 
+## Unreleased
+
+- Eloquent evidence driver: `storage.evidence_driver` set to `eloquent`
+  keeps the log in a table on the connection `storage.evidence_connection`
+  names, created by `php please a11y:state:install`. Same contract as the
+  YAML driver: insert only, primary key on the id, no update, no delete.
+
 ## 0.1.0
 
 First build, from the brief in `docs/build-grange.md`, where the addon
