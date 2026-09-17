@@ -67,7 +67,9 @@
             @if ($records === [])
                 <p>@a11yStateText($total === 0 ? 'Nothing has been recorded yet.' : 'No records match this filter.')</p>
             @else
-                <table class="w-full text-sm">
+                {{-- Scrolls sideways on a narrow screen instead of pushing the page out: a seven-column table at phone width otherwise clips or overflows. --}}
+<div class="overflow-x-auto">
+<table class="w-full text-sm">
                     <caption class="sr-only">Evidence records, newest first</caption>
                     <thead>
                         <tr class="text-left">
@@ -98,6 +100,7 @@
                         @endforeach
                     </tbody>
                 </table>
+</div>
 
                 @if ($pages > 1)
                     <nav aria-label="Pages of records" class="flex flex-wrap items-center gap-2">

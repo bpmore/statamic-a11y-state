@@ -159,7 +159,9 @@
                 @if ($s->exceptions === [] && $external === [])
                     <p>None recorded.</p>
                 @else
-                    <table class="w-full text-sm">
+                    {{-- Scrolls sideways on a narrow screen instead of pushing the page out: a seven-column table at phone width otherwise clips or overflows. --}}
+<div class="overflow-x-auto">
+<table class="w-full text-sm">
                         <caption class="text-left font-medium mb-2">@a11yStateText(count($s->openExceptions()) + count($external)) open, @a11yStateText(count($s->exceptions) - count($s->openExceptions())) resolved</caption>
                         <thead>
                             <tr class="text-left">
@@ -204,6 +206,7 @@
                             @endforeach
                         </tbody>
                     </table>
+</div>
                 @endif
 
                 @if ($canEdit)

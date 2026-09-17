@@ -27,7 +27,9 @@
                 @if ($report->rows === [])
                     <p>The form <code>@a11yStateText($form)</code> has no submissions.</p>
                 @else
-                    <table class="w-full text-sm">
+                    {{-- Scrolls sideways on a narrow screen instead of pushing the page out: a seven-column table at phone width otherwise clips or overflows. --}}
+<div class="overflow-x-auto">
+<table class="w-full text-sm">
                         <caption class="sr-only">Feedback submissions, newest first</caption>
                         <thead>
                             <tr class="text-left">
@@ -73,6 +75,7 @@
                             @endforeach
                         </tbody>
                     </table>
+</div>
                 @endif
             </div>
         </ui-card-panel>
