@@ -224,7 +224,7 @@ Published to `config/statamic-a11y-state.php`. The keys:
 
 ## Verified, and not
 
-The suite is 127 tests, Pest, green on PHP 8.4 with Statamic 6.31 and on
+The suite is 128 tests, Pest, green on PHP 8.4 with Statamic 6.31 and on
 PHP 8.2 with the oldest dependencies, in CI. The
 seven discriminating cases in the brief each have their own test, and
 each was mutation-tested: the rule it guards was broken and the test went
@@ -234,9 +234,13 @@ attestation, evidence, feedback and public page were driven by hand, a
 real finding from a real scan reached the statement and its fix reached
 the log, and `--json` was piped through `jq`. axe-core found no WCAG 2.1
 A or AA violation on the public page or any control panel screen, and a
-keyboard walk reached every control with a visible focus ring.
+keyboard walk reached every control with a visible focus ring. On 23
+October 2026 every screen was checked at 390 pixels wide in Chromium: no
+sideways page scroll, a level-two heading on every panel, and each wide
+table reachable by keyboard and scrolled with the arrow keys.
 
-Not done: a screen reader pass, and a production site.
+Not done: a pass with a real screen reader (the accessibility tree was
+read, not listened to), Safari itself, and a production site.
 
 ## Support
 

@@ -299,3 +299,41 @@ it('says so when no feedback form is configured, and reports the clock when one 
     expect($json['feedback']['overdue'])->toBe(0);
     expect($json['feedback']['awaiting'])->toBe(1);
 });
+
+it('gives every panel a real heading and lets the keyboard into every table that scrolls', function () {
+    // Statamic's card panel prints its title as a plain div, so a screen
+    // reader user had one heading per screen and nothing to jump between.
+    // Safari keeps the keyboard out of a scroll area that cannot take focus,
+    // so the table columns past a phone's edge were out of reach.
+    $this->post(cp_route('utilities.a11y-state.save'), fields(override: [
+        'new_exception' => ['description' => 'Carousel cannot be paused', 'severity' => 'serious', 'criterion' => '2.2.2', 'page' => '/home'],
+    ]))->assertSessionHas('success');
+
+    config()->set('statamic-a11y-state.feedback.form', 'accessibility');
+    $form = \Statamic\Facades\Form::make('accessibility')->title('Accessibility feedback');
+    $form->save();
+    \Statamic\Facades\FormSubmission::make()->form($form)->id((string) strtotime('-1 day'))->data(['message' => 'The menu traps focus'])->save();
+
+    $tables = 0;
+
+    foreach (['', '/evidence', '/feedback', '/preview'] as $screen) {
+        $html = utilityHtml($screen);
+
+        expect($html)->not->toContain('<ui-card-panel');
+        expect(substr_count($html, '<ui-panel-header>'))->toBeGreaterThan(0, $screen);
+        expect(substr_count($html, '<ui-panel-header><ui-heading level="2"'))->toBe(substr_count($html, '<ui-panel-header>'), $screen);
+
+        preg_match_all('/<div class="overflow-x-auto"[^>]*>/', $html, $scrollers);
+
+        foreach ($scrollers[0] as $scroller) {
+            expect($scroller)->toContain('tabindex="0"');
+            expect($scroller)->toContain('role="region"');
+            expect(preg_match('/aria-labelledby="([^"]+)"/', $scroller, $m))->toBe(1, $screen);
+            expect($html)->toMatch('/<caption id="'.preg_quote($m[1], '/').'"/');
+            $tables++;
+        }
+    }
+
+    // The exceptions, evidence and feedback tables, so the loop above was not empty.
+    expect($tables)->toBe(3);
+});

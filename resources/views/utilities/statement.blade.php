@@ -37,7 +37,7 @@
     @endif
 
     {{-- Completeness, first, because it is the answer to "can this be published". --}}
-    <ui-card-panel heading="@a11yStateText($errors === [] ? 'Complete under the '.$profile->name.' profile' : count($errors).' '.(count($errors) === 1 ? 'thing stops' : 'things stop').' this statement being generated')">
+    <ui-panel><ui-panel-header><ui-heading level="2" text="@a11yStateText($errors === [] ? 'Complete under the '.$profile->name.' profile' : count($errors).' '.(count($errors) === 1 ? 'thing stops' : 'things stop').' this statement being generated')" /></ui-panel-header><ui-card>
         <div class="space-y-3">
             @if ($errors === [] && $warnings === [])
                 <p>Every disclosure the profile requires is present, the claim is within what the evidence allows, and the assessment is inside the {{ $staleAfterDays }}-day window.@if ($publicUrl) The statement is published at <a class="{{ $link }}" href="@a11yStateText($publicUrl)">@a11yStateText($publicUrl)</a>.@endif</p>
@@ -66,13 +66,13 @@
                 </div>
             @endif
         </div>
-    </ui-card-panel>
+    </ui-card></ui-panel>
 
     <form method="post" action="@a11yStateText($urls['save'])" class="space-y-6">
         @csrf
         <input type="hidden" name="site" value="@a11yStateText($site)">
 
-        <ui-card-panel heading="Profile and claim">
+        <ui-panel><ui-panel-header><ui-heading level="2" text="Profile and claim" /></ui-panel-header><ui-card>
             <div class="space-y-4">
                 <div>
                     <label for="a11y-state-profile" class="{{ $label }}">Jurisdiction profile</label>
@@ -109,9 +109,9 @@
                     </p>
                 </fieldset>
             </div>
-        </ui-card-panel>
+        </ui-card></ui-panel>
 
-        <ui-card-panel heading="@a11yStateText('Disclosures: '.$profile->name)">
+        <ui-panel><ui-panel-header><ui-heading level="2" text="@a11yStateText('Disclosures: '.$profile->name)" /></ui-panel-header><ui-card>
             <div class="space-y-4">
                 @foreach ($profile->disclosures as $d)
                     @continue(in_array($d->key, \Bpmore\A11yState\Statement\Disclosure::STRUCTURED, true))
@@ -152,17 +152,17 @@
                     </div>
                 @endif
             </div>
-        </ui-card-panel>
+        </ui-card></ui-panel>
 
-        <ui-card-panel heading="Known exceptions">
+        <ui-panel><ui-panel-header><ui-heading level="2" text="Known exceptions" /></ui-panel-header><ui-card>
             <div class="space-y-4">
                 @if ($s->exceptions === [] && $external === [])
                     <p>None recorded.</p>
                 @else
-                    {{-- Scrolls sideways on a narrow screen instead of pushing the page out: a seven-column table at phone width otherwise clips or overflows. --}}
-<div class="overflow-x-auto">
+                    {{-- Scrolls sideways on a narrow screen instead of pushing the page out: a seven-column table at phone width otherwise clips or overflows. Focusable and named by its caption because Safari keeps the keyboard out of a scroll area otherwise, which left the columns past the edge out of reach. --}}
+<div class="overflow-x-auto" tabindex="0" role="region" aria-labelledby="a11y-state-exceptions-caption">
 <table class="w-full text-sm">
-                        <caption class="text-left font-medium mb-2">@a11yStateText(count($s->openExceptions()) + count($external)) open, @a11yStateText(count($s->exceptions) - count($s->openExceptions())) resolved</caption>
+                        <caption id="a11y-state-exceptions-caption" class="text-left font-medium mb-2"><span class="sr-only">Known exceptions: </span>@a11yStateText(count($s->openExceptions()) + count($external)) open, @a11yStateText(count($s->exceptions) - count($s->openExceptions())) resolved</caption>
                         <thead>
                             <tr class="text-left">
                                 <th scope="col" class="py-1 pr-3">Description</th>
@@ -246,7 +246,7 @@
                     </fieldset>
                 @endif
             </div>
-        </ui-card-panel>
+        </ui-card></ui-panel>
 
         @if ($canEdit)
             <div class="flex flex-wrap items-center gap-3">
@@ -260,7 +260,7 @@
         @endif
     </form>
 
-    <ui-card-panel heading="Attest to full conformance" id="a11y-state-attest">
+    <ui-panel id="a11y-state-attest"><ui-panel-header><ui-heading level="2" text="Attest to full conformance" /></ui-panel-header><ui-card>
         <div class="space-y-3">
             @if ($s->status === \Bpmore\A11yState\Statement\ConformanceStatus::FullyConformant && $s->attestation)
                 <p>Attested by <strong>@a11yStateText($s->attestation->name)</strong> on <strong>@a11yStateText($s->attestation->date)</strong>.@if ($s->attestation->recordId) Evidence record @a11yStateText($s->attestation->recordId).@endif</p>
@@ -297,11 +297,11 @@
                 <p>Nothing stands in the way, and attesting needs the "Attest to full conformance" permission, which you do not have.</p>
             @endif
         </div>
-    </ui-card-panel>
+    </ui-card></ui-panel>
 
-    <ui-card-panel heading="Integrations">
+    <ui-panel><ui-panel-header><ui-heading level="2" text="Integrations" /></ui-panel-header><ui-card>
         <p>@if ($externalSource === 'none')No other accessibility addon is feeding this statement. Exceptions are entered by hand above.@else Open findings from <strong>@a11yStateText($externalSource)</strong> are listed among the exceptions and count against full conformance. Fixes can be imported into the evidence log from the Evidence screen.@endif</p>
-    </ui-card-panel>
+    </ui-card></ui-panel>
 
     @include('a11y-state::utilities.disclaimer')
 </div>

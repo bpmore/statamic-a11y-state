@@ -7,6 +7,31 @@ not edited when they stop being true; a reversal gets a newer entry.
 
 ---
 
+## 2026-10-23: Panels carry real headings, and wide tables take keyboard focus
+
+A phone-width pass over the control panel found two things a screen reader
+or keyboard user could not do.
+
+**Headings.** `<ui-card-panel heading="...">` prints its title as a `div`,
+so every screen had one heading (the page title) and nothing to jump
+between. Statamic's own `ui-heading` takes a `level`, so each panel is now
+`ui-panel` > `ui-panel-header` > `ui-heading level="2"` > `ui-card`, which
+is what `ui-card-panel` renders, with the title as an `h2`. The title goes
+in through `text`, printed as text; `ui-card-panel` set it as `innerHTML`.
+A test fails if `ui-card-panel` comes back or a panel title is not an `h2`.
+
+**Tables.** The tables scroll sideways at phone width (17 September).
+Safari does not let the keyboard into a scroll area that cannot take
+focus, so the columns past the edge were out of reach. Each scroll area
+now has `tabindex="0"` and `role="region"`, named by the table's caption.
+
+**Rejected:** a script that adds focus only when the table overflows (the
+screens work with no script, and an extra tab stop on a wide screen costs
+little); asking Statamic to change `ui-card-panel` (the fix is available
+in our own markup today).
+
+---
+
 ## 2026-09-16: An Eloquent evidence driver, and the inferred profile fields stay
 
 **The driver.** The brief allowed a database driver as an option and said

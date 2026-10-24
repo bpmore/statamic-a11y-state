@@ -10,15 +10,15 @@
     @include('a11y-state::utilities.nav', ['active' => 'feedback'])
 
     @if ($form === null)
-        <ui-card-panel heading="No feedback form configured">
+        <ui-panel><ui-panel-header><ui-heading level="2" text="No feedback form configured" /></ui-panel-header><ui-card>
             <p>Set <code>feedback.form</code> in <code>config/statamic-a11y-state.php</code> to the handle of the Statamic form that receives accessibility feedback. Acknowledging a submission here writes an evidence record and stops its clock.</p>
-        </ui-card-panel>
+        </ui-card></ui-panel>
     @elseif (! $formExists)
-        <ui-card-panel heading="The configured form does not exist">
+        <ui-panel><ui-panel-header><ui-heading level="2" text="The configured form does not exist" /></ui-panel-header><ui-card>
             <p>The config file names a form called <code>@a11yStateText($form)</code> and there is no such form.</p>
-        </ui-card-panel>
+        </ui-card></ui-panel>
     @else
-        <ui-card-panel heading="@a11yStateText(count($report->rows).' '.(count($report->rows) === 1 ? 'submission' : 'submissions').', '.count($report->awaiting()).' awaiting acknowledgment'.($report->hasWindow() ? ', '.count($report->overdue()).' past the '.$report->responseDays.'-day window' : ''))">
+        <ui-panel><ui-panel-header><ui-heading level="2" text="@a11yStateText(count($report->rows).' '.(count($report->rows) === 1 ? 'submission' : 'submissions').', '.count($report->awaiting()).' awaiting acknowledgment'.($report->hasWindow() ? ', '.count($report->overdue()).' past the '.$report->responseDays.'-day window' : ''))" /></ui-panel-header><ui-card>
             <div class="space-y-4">
                 @if (! $report->hasWindow())
                     <p>No response window is configured, so nothing is overdue and the statement makes no claim about response times. Set <code>feedback.response_days</code> to start the clock.</p>
@@ -27,10 +27,10 @@
                 @if ($report->rows === [])
                     <p>The form <code>@a11yStateText($form)</code> has no submissions.</p>
                 @else
-                    {{-- Scrolls sideways on a narrow screen instead of pushing the page out: a seven-column table at phone width otherwise clips or overflows. --}}
-<div class="overflow-x-auto">
+                    {{-- Scrolls sideways on a narrow screen instead of pushing the page out: a seven-column table at phone width otherwise clips or overflows. Focusable and named by its caption because Safari keeps the keyboard out of a scroll area otherwise, which left the columns past the edge out of reach. --}}
+<div class="overflow-x-auto" tabindex="0" role="region" aria-labelledby="a11y-state-feedback-caption">
 <table class="w-full text-sm">
-                        <caption class="sr-only">Feedback submissions, newest first</caption>
+                        <caption id="a11y-state-feedback-caption" class="sr-only">Feedback submissions, newest first</caption>
                         <thead>
                             <tr class="text-left">
                                 <th scope="col" class="py-1 pr-3">Received</th>
@@ -78,7 +78,7 @@
 </div>
                 @endif
             </div>
-        </ui-card-panel>
+        </ui-card></ui-panel>
     @endif
 
     @include('a11y-state::utilities.disclaimer')
