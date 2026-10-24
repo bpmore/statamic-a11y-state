@@ -16,7 +16,7 @@
 
     @include('a11y-state::utilities.nav', ['active' => 'evidence'])
 
-    <ui-card-panel heading="@a11yStateText($total.' '.($total === 1 ? 'record' : 'records').($shown !== $total ? ', '.$shown.' shown' : ''))">
+    <ui-panel><ui-panel-header><ui-heading level="2" text="@a11yStateText($total.' '.($total === 1 ? 'record' : 'records').($shown !== $total ? ', '.$shown.' shown' : ''))" /></ui-panel-header><ui-card>
         <div class="space-y-4">
             <p>Every record is written once. A correction is a new record that names the one it corrects; both stay. Exports carry the whole log, or exactly this filter.</p>
 
@@ -67,10 +67,10 @@
             @if ($records === [])
                 <p>@a11yStateText($total === 0 ? 'Nothing has been recorded yet.' : 'No records match this filter.')</p>
             @else
-                {{-- Scrolls sideways on a narrow screen instead of pushing the page out: a seven-column table at phone width otherwise clips or overflows. --}}
-<div class="overflow-x-auto">
+                {{-- Scrolls sideways on a narrow screen instead of pushing the page out: a seven-column table at phone width otherwise clips or overflows. Focusable and named by its caption because Safari keeps the keyboard out of a scroll area otherwise, which left the columns past the edge out of reach. --}}
+<div class="overflow-x-auto" tabindex="0" role="region" aria-labelledby="a11y-state-records-caption">
 <table class="w-full text-sm">
-                    <caption class="sr-only">Evidence records, newest first</caption>
+                    <caption id="a11y-state-records-caption" class="sr-only">Evidence records, newest first</caption>
                     <thead>
                         <tr class="text-left">
                             <th scope="col" class="py-1 pr-3">When</th>
@@ -111,10 +111,10 @@
                 @endif
             @endif
         </div>
-    </ui-card-panel>
+    </ui-card></ui-panel>
 
     @if ($canRecord)
-        <ui-card-panel heading="Record something" id="a11y-state-record">
+        <ui-panel id="a11y-state-record"><ui-panel-header><ui-heading level="2" text="Record something" /></ui-panel-header><ui-card>
             <form method="post" action="@a11yStateText($urls['evidenceAppend'])" class="space-y-3">
                 @csrf
                 <input type="hidden" name="site" value="@a11yStateText($site)">
@@ -148,10 +148,10 @@
                 </div>
                 <ui-button type="submit" variant="primary" text="Write the record" />
             </form>
-        </ui-card-panel>
+        </ui-card></ui-panel>
 
         @if ($externalAvailable)
-            <ui-card-panel heading="@a11yStateText('Import fixes from '.$externalSource)">
+            <ui-panel><ui-panel-header><ui-heading level="2" text="@a11yStateText('Import fixes from '.$externalSource)" /></ui-panel-header><ui-card>
                 <form method="post" action="@a11yStateText($urls['evidenceAppend'])" class="flex flex-wrap items-end gap-3">
                     @csrf
                     <input type="hidden" name="site" value="@a11yStateText($site)">
@@ -163,7 +163,7 @@
                     <ui-button type="submit" text="Import" />
                     <p class="text-sm text-gray-600 dark:text-gray-400 w-full">Each fix becomes a record keyed on the finding, so importing again writes nothing twice.</p>
                 </form>
-            </ui-card-panel>
+            </ui-card></ui-panel>
         @endif
     @endif
 

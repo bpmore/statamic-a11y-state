@@ -11,20 +11,20 @@
     @include('a11y-state::utilities.nav', ['active' => 'preview'])
 
     @if ($html === null)
-        <ui-card-panel heading="This statement cannot be generated yet">
+        <ui-panel><ui-panel-header><ui-heading level="2" text="This statement cannot be generated yet" /></ui-panel-header><ui-card>
             <ul class="ps-5 space-y-1" style="list-style: disc">
                 @foreach ($problems as $p)
                     <li>@a11yStateText($p->message)</li>
                 @endforeach
             </ul>
             <p class="mt-3"><ui-button href="@a11yStateText($urls['index'])" text="Back to the editor" /></p>
-        </ui-card-panel>
+        </ui-card></ui-panel>
     @else
-        <ui-card-panel heading="Preview">
+        <ui-panel><ui-panel-header><ui-heading level="2" text="Preview" /></ui-panel-header><ui-card>
             <div class="prose">
                 {!! \Bpmore\A11yState\Support\VueSafe::braces($html) !!}
             </div>
-        </ui-card-panel>
+        </ui-card></ui-panel>
         <div class="flex flex-wrap items-center gap-3">
             <ui-button href="@a11yStateText($urls['exportHtml'])" text="Download HTML" />
             <ui-button href="@a11yStateText($urls['exportMarkdown'])" text="Download Markdown" />
