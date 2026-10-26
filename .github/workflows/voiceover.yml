@@ -25,10 +25,17 @@ jobs:
       CI: 'true'
       BASE_URL: http://127.0.0.1:8765
       # A throwaway account on a throwaway site that exists only for this job.
+      # Its password is made fresh on every run (the first step), so no
+      # password is ever written in this file.
       VO_EMAIL: voiceover@example.test
-      VO_PASSWORD: voiceover-ci-only
 
     steps:
+      - name: Make a one-run password for the throwaway account
+        run: |
+          password="$(openssl rand -hex 16)"
+          echo "::add-mask::$password"
+          echo "VO_PASSWORD=$password" >> "$GITHUB_ENV"
+
       - uses: actions/checkout@v4
 
       - uses: shivammathur/setup-php@v2
