@@ -2,6 +2,16 @@
 
 Newest first. Before 1.0, a breaking change raises the minor version.
 
+## 0.1.1 - 2026-10-26
+
+- The control panel icon shows. The header and the Utilities listing named
+  an icon Statamic does not have (`list-checklist`), so both showed a blank
+  space. They now use `document-certificate`, which every supported
+  Statamic version ships, and a test fails on any icon name Statamic does
+  not have.
+
+Nothing to do: `composer update bpmore/statamic-a11y-state`.
+
 ## 0.1.0 - 2026-10-26
 
 The first release. Everything below is new.
