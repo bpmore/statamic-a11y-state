@@ -2,6 +2,14 @@
 
 Newest first. Before 1.0, a breaking change raises the minor version.
 
+## Unreleased
+
+- A11y Report findings are listed once per problem and page. The report
+  keeps a row per element, so two images with no description on one page
+  printed the same sentence twice in the statement. They are now one known
+  exception that says "Found in 2 places", at the worst severity among
+  them.
+
 ## 0.1.1 - 2026-10-26
 
 - The control panel icon shows. The header and the Utilities listing named
