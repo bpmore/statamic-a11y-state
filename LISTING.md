@@ -1,6 +1,9 @@
 # Marketplace listing copy
 
-Copy for the Statamic marketplace listing. Every claim here is checked
+Copy for the Statamic marketplace listing. The marketplace page's
+description is pulled from README.md, so the README's opening, "What you
+get" and "A11y State or A11y Report?" carry the long description below;
+change them together. Every claim here is checked
 against the 0.1.2 release; keep it that way when the product changes.
 
 ---

@@ -1,13 +1,19 @@
 # A11y State for Statamic
 
-A11y State keeps a site's accessibility statement and the evidence behind it.
-It generates the statement from what you enter and what your testing
+Most accessibility statements are written once and left alone. The site
+changes, the known problems change, and the statement keeps saying what
+it said the day it was published. A11y State keeps the statement and the
+evidence behind it in one place, and it will not let the two drift apart:
+it generates the statement from what you enter and what your testing
 found, refuses to claim more than the evidence supports, and keeps an
 append-only log of what was assessed, fixed, attested and answered.
 
-It is a paid addon and runs on Statamic 6 with PHP 8.2 or newer. It works
-on its own, and it works alongside A11y Report, A11y
-Gate and A11y Docs when they are installed.
+It is for an organisation that has to publish an accessibility statement
+and stand behind it: a state or local government under ADA Title II, a
+university, a hospital, a business selling into the EU or Ontario. It
+runs on Statamic 6.27 or newer with PHP 8.2 or newer, works on Statamic
+Core, and needs no database. It works on its own, and alongside A11y
+Report, A11y Gate and A11y Docs when they are installed.
 
 **Not legal advice.** A11y State produces a document. It cannot tell you
 whether a site is accessible or whether any legal obligation has been met,
@@ -15,13 +21,44 @@ and nothing it generates is a certification. The organisation publishing
 the statement is responsible for what it says. That sentence is in the
 control panel, in the generated statement, and here.
 
-## Status
+## What you get
 
-This is 0.1.0, the first release. It includes the profiles, the statement editor, the attestation step, the
-evidence log with CSV and JSON export, the public page and tag, Markdown
-and HTML export, the feedback clock, `a11y:state:check`, and the optional
-A11y Report integration. What is not built is in "What it does
-not do" below.
+- **A statement that cannot overclaim.** It starts as "not assessed".
+  "Fully conformant" is not an option in the editor: it takes an
+  attestation by a named person, on a date, with the basis for the claim,
+  and it is refused, by name, while any known problem is open.
+- **The disclosures your regime asks for.** Five profiles: Generic (W3C),
+  EN 301 549 (EU), Section 508 (US federal), ADA Title II (US state and
+  local government) and AODA (Ontario). Every field names the text it
+  came from. A statement missing a required disclosure is not published.
+- **The evidence, kept.** Every save, every known problem opened or
+  resolved, every attestation and every check you record by hand, in a
+  log nothing can edit or delete. Filter it, and export it as CSV or JSON.
+- **A warning when it goes stale.** An assessment older than a year
+  (configurable) is flagged. The published statement is never changed
+  behind your back.
+- **Feedback on the record.** Point it at a Statamic form and see every
+  accessibility report with how long it has waited. The statement only
+  promises a response time if you set one.
+- **A public page that reads well.** At `/accessibility-statement`, or
+  anywhere through a tag, with readable default styles any theme can
+  override. Markdown and HTML downloads too.
+- **A check for CI.** `php please a11y:state:check` fails a pipeline when
+  the statement and the evidence disagree.
+
+## A11y State or A11y Report?
+
+A11y Report, our scanning addon, also publishes a statement, at
+`/accessibility`. Its conformance claim follows the latest scan, and what
+it says about your organisation is set in the config file. If a statement
+that mirrors your scans is all you need, A11y Report's is enough.
+
+A11y State is for the statement you maintain: the regime's disclosures,
+problems found by people as well as tools, a named attestation, and the
+log an auditor asks for. It works on its own. With A11y Report installed,
+the report's open issues join the known problems and its fixes join the
+evidence log. A11y State publishes at `/accessibility-statement`, so the
+two can run side by side.
 
 ## Install
 
@@ -89,7 +126,7 @@ it requires. Five ship: **Generic (W3C)**, **EN 301 549 (EU)**, **Section
 508 (US federal)**, **ADA Title II (US state and local government)** and
 **AODA (Ontario)**. Every disclosure in every profile names the text it
 came from, printed under the field in the editor and traced in
-[docs/profiles.md](docs/profiles.md). Where a regime's own text does not
+[docs/profiles.md](https://github.com/bpmore/statamic-a11y-state/blob/main/docs/profiles.md). Where a regime's own text does not
 ask for a disclosure, the field says so and the requirement is the W3C
 model's.
 
