@@ -17,8 +17,7 @@ control panel, in the generated statement, and here.
 
 ## Status
 
-This is 0.1.0, the first build. Everything in the brief is built and
-tested: the profiles, the statement editor, the attestation step, the
+This is 0.1.0, the first release. It includes the profiles, the statement editor, the attestation step, the
 evidence log with CSV and JSON export, the public page and tag, Markdown
 and HTML export, the feedback clock, `a11y:state:check`, and the optional
 A11y Report integration. What is not built is in "What it does
@@ -226,7 +225,7 @@ Published to `config/statamic-a11y-state.php`. The keys:
 
 The suite is 128 tests, Pest, green on PHP 8.4 with Statamic 6.31 and on
 PHP 8.2 with the oldest dependencies, in CI. The
-seven discriminating cases in the brief each have their own test, and
+seven rules the addon exists to enforce each have their own test, and
 each was mutation-tested: the rule it guards was broken and the test went
 red. The addon was installed by path on a scratch Statamic site with
 A11y Report and A11y Gate beside it, the editor,

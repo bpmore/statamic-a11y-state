@@ -2,18 +2,9 @@
 
 Newest first. Before 1.0, a breaking change raises the minor version.
 
-## Unreleased
+## 0.1.0 - 2026-10-26
 
-- Eloquent evidence driver: `storage.evidence_driver` set to `eloquent`
-  keeps the log in a table on the connection `storage.evidence_connection`
-  names, created by `php please a11y:state:install`. Same contract as the
-  YAML driver: insert only, primary key on the id, no update, no delete.
-
-## 0.1.0
-
-First build, from the brief in `docs/build-grange.md`, where the addon
-was called Grange. Renamed A11y State before release; nothing was
-installed under the old name.
+The first release. Everything below is new.
 
 - Five jurisdiction profiles as config data, every disclosure traced to
   its source in `docs/profiles.md`.
@@ -37,3 +28,10 @@ installed under the old name.
   0, 1, 2.
 - Optional A11y Report integration behind an interface with a
   null adapter: open issues join the exceptions, fixes join the log.
+- Eloquent evidence driver: `storage.evidence_driver` set to `eloquent`
+  keeps the log in a table on the connection `storage.evidence_connection`
+  names, created by `php please a11y:state:install`. Same contract as the
+  YAML driver: insert only, primary key on the id, no update, no delete.
+- Control panel structure: every panel title is a heading, and each wide
+  table scrolls sideways on a narrow screen, takes keyboard focus, and is
+  named by its caption.
