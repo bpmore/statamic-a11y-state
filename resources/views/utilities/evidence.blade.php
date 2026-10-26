@@ -10,7 +10,7 @@
     $old = fn (string $key, $default = '') => old($key, $default);
 @endphp
 
-<ui-header title="A11y State" icon="list-checklist" />
+<ui-header title="A11y State" icon="document-certificate" />
 
 <div class="space-y-6">
 

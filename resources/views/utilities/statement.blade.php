@@ -22,7 +22,7 @@
     foreach ($profiles as $p) { if ($p->handle === $s->profile) { $savedProfileName = $p->name; } }
 @endphp
 
-<ui-header title="A11y State" icon="list-checklist" />
+<ui-header title="A11y State" icon="document-certificate" />
 
 <div class="space-y-6">
 

@@ -337,3 +337,21 @@ it('gives every panel a real heading and lets the keyboard into every table that
     // The exceptions, evidence and feedback tables, so the loop above was not empty.
     expect($tables)->toBe(3);
 });
+
+it('names only icons that Statamic ships', function () {
+    // list-checklist was never in Statamic's icon set, so the header and the
+    // Utilities listing showed a blank space from the first release until a
+    // fresh-site install surfaced the console warning.
+    $icons = [];
+
+    foreach ([...glob(__DIR__.'/../../resources/views/utilities/*.blade.php'), __DIR__.'/../../src/ServiceProvider.php'] as $file) {
+        preg_match_all('/(?:icon="|->icon\(\')([a-z0-9-]+)/', (string) file_get_contents($file), $m);
+        $icons = [...$icons, ...$m[1]];
+    }
+
+    expect($icons)->not->toBe([]);
+
+    foreach (array_unique($icons) as $icon) {
+        expect(\Composer\InstalledVersions::getInstallPath('statamic/cms').'/resources/svg/icons/'.$icon.'.svg')->toBeFile();
+    }
+});

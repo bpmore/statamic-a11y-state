@@ -89,7 +89,7 @@ class ServiceProvider extends AddonServiceProvider
             Utility::make(self::UTILITY)
                 ->title('A11y State')
                 ->navTitle('A11y State')
-                ->icon('list-checklist')
+                ->icon('document-certificate')
                 ->description('The statement, whether it is complete, and the evidence behind it.')
                 ->view('a11y-state::utilities.statement', fn (Request $request) => Http\Controllers\StatementPageData::for($request))
                 ->routes(function ($router) {

@@ -4,7 +4,7 @@
     is this addon's renderer, every value in it already escaped, and it
     contains no braces Vue would read as its own.
 --}}
-<ui-header title="A11y State" icon="list-checklist" />
+<ui-header title="A11y State" icon="document-certificate" />
 
 <div class="space-y-6">
 

@@ -3,7 +3,7 @@
     $control = 'rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 py-1 text-sm';
 @endphp
 
-<ui-header title="A11y State" icon="list-checklist" />
+<ui-header title="A11y State" icon="document-certificate" />
 
 <div class="space-y-6">
 
