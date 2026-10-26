@@ -22,10 +22,10 @@ the thing no generator does.
 
 ## Price
 
-$29 per site (one production install, however many sites it hosts).
+$19 per site (one production install, however many sites it hosts).
 
-Set by the owner on 26 October 2026 (first $79, down from the build
-brief's $99).
+Set by the owner on 26 October 2026 (first $79, then $29, down from the
+build brief's $99).
 
 ## One-liner
 
