@@ -129,7 +129,7 @@ panel and every generated statement say so too.
 
 ## Requirements
 
-Statamic 6.27 or newer on PHP 8.2 or newer. Works on Statamic Core; the
+Statamic 6.31 or newer on PHP 8.2 or newer. Works on Statamic Core; the
 separate permissions need Pro, as all Statamic roles do. No database
 required.
 

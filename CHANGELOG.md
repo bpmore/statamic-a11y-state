@@ -2,6 +2,17 @@
 
 Newest first. Before 1.0, a breaking change raises the minor version.
 
+## 0.1.4 - 2026-10-26
+
+- Requires Statamic 6.31 or newer, up from 6.27. Statamic 6.30 and
+  earlier carry a security advisory (PKSA-rsd9-mj5m-pj4f: two-factor
+  recovery codes exposed through dynamic Antlers rendering), and Composer
+  refuses to install them by default, so 6.31 was already the lowest
+  version anyone could install and the lowest the tests run on.
+
+Nothing to do on Statamic 6.31 or newer. On anything older, update
+Statamic first: `composer update statamic/cms`.
+
 ## 0.1.3 - 2026-10-26
 
 - The known exceptions table is announced as "Known exceptions: 2 open"

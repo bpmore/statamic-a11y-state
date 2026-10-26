@@ -11,7 +11,7 @@ append-only log of what was assessed, fixed, attested and answered.
 It is for an organisation that has to publish an accessibility statement
 and stand behind it: a state or local government under ADA Title II, a
 university, a hospital, a business selling into the EU or Ontario. It
-runs on Statamic 6.27 or newer with PHP 8.2 or newer, works on Statamic
+runs on Statamic 6.31 or newer with PHP 8.2 or newer, works on Statamic
 Core, and needs no database. It works on its own, and alongside A11y
 Report, A11y Gate and A11y Docs when they are installed.
 
