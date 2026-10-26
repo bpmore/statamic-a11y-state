@@ -33,6 +33,10 @@ async function open(page: Page, voiceOver: VoiceOver, path: string) {
     await page.addStyleTag({ content: "body { min-height: 1px; }" });
 
     await voiceOver.navigateToWebContent();
+
+    // VoiceOver can still be reading the page title when the first command
+    // arrives; the first run's opening walk lost its headings that way.
+    await page.waitForTimeout(1000);
 }
 
 /** Repeats one VoiceOver command and keeps what it says, until it says nothing new. */
@@ -58,8 +62,10 @@ function said(spoken: string[], ...parts: (string | RegExp)[]): boolean {
 }
 
 function keep(name: string, transcript: Record<string, string[]>) {
+    // One file per attempt, so a retry does not overwrite what the first try heard.
+    const retry = test.info().retry;
     mkdirSync("./test-results/transcripts", { recursive: true });
-    writeFileSync(`./test-results/transcripts/${name}.json`, JSON.stringify(transcript, null, 2));
+    writeFileSync(`./test-results/transcripts/${name}${retry ? `-retry-${retry}` : ""}.json`, JSON.stringify(transcript, null, 2));
     test.info().attach(`${name} transcript`, { body: JSON.stringify(transcript, null, 2), contentType: "application/json" });
 }
 
@@ -80,10 +86,17 @@ test.describe("A11y State with VoiceOver in Safari's engine", () => {
         await voiceOver.perform(voiceOver.keyboardCommands.describeItemWithKeyboardFocus);
         transcript.scrollRegionWithFocus = [await voiceOver.lastSpokenPhrase()];
 
-        // The refusal: the heading, then what follows it.
+        // The refusal: stop on its heading, then read on.
         await open(page, voiceOver, "/cp/utilities/a11y-state");
-        const toAttest = await walk(voiceOver, voiceOver.keyboardCommands.findNextHeading);
-        transcript.attest = [toAttest[toAttest.length - 1] ?? ""];
+        transcript.attest = [];
+        for (let i = 0; i < MAX_STEPS; i++) {
+            await voiceOver.perform(voiceOver.keyboardCommands.findNextHeading);
+            const phrase = await voiceOver.lastSpokenPhrase();
+            if (phrase.includes("Attest to full conformance") || phrase.startsWith("Last heading")) {
+                transcript.attest.push(phrase);
+                break;
+            }
+        }
         for (let i = 0; i < 4; i++) {
             await voiceOver.next();
             transcript.attest.push(await voiceOver.lastSpokenPhrase());
@@ -97,7 +110,7 @@ test.describe("A11y State with VoiceOver in Safari's engine", () => {
         expect.soft(said(transcript.headings, "Attest to full conformance", "heading level 2")).toBe(true);
         expect.soft(said(transcript.controls, "Jurisdiction profile"), "the profile menu has its label").toBe(true);
         expect.soft(said(transcript.controls, "Partially conformant"), "the status radios have their labels").toBe(true);
-        expect.soft(said(transcript.table, "Known exceptions"), "the table is named by its caption").toBe(true);
+        expect.soft(said(transcript.table, "Known exceptions: 2 open"), "the table is named by its caption, with its space").toBe(true);
         expect.soft(said(transcript.scrollRegionWithFocus, "Known exceptions"), "the scroll area takes focus and says what it holds").toBe(true);
         expect.soft(said(transcript.attest, "Not available"), "the refusal is read after its heading").toBe(true);
     });

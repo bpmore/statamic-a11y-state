@@ -162,7 +162,7 @@
                     {{-- Scrolls sideways on a narrow screen instead of pushing the page out: a seven-column table at phone width otherwise clips or overflows. Focusable and named by its caption because Safari keeps the keyboard out of a scroll area otherwise, which left the columns past the edge out of reach. --}}
 <div class="overflow-x-auto" tabindex="0" role="region" aria-labelledby="a11y-state-exceptions-caption">
 <table class="w-full text-sm">
-                        <caption id="a11y-state-exceptions-caption" class="text-left font-medium mb-2"><span class="sr-only">Known exceptions: </span>@a11yStateText(count($s->openExceptions()) + count($external)) open, @a11yStateText(count($s->exceptions) - count($s->openExceptions())) resolved</caption>
+                        <caption id="a11y-state-exceptions-caption" class="text-left font-medium mb-2"><span class="sr-only">Known exceptions:&nbsp;</span>@a11yStateText(count($s->openExceptions()) + count($external)) open, @a11yStateText(count($s->exceptions) - count($s->openExceptions())) resolved</caption>
                         <thead>
                             <tr class="text-left">
                                 <th scope="col" class="py-1 pe-3">Description</th>
