@@ -66,19 +66,58 @@ final class A11yReportSource implements FindingSource
             $query->where('a11y_issue_states.site', $site);
         }
 
-        $findings = [];
+        return self::grouped($query->orderBy('a11y_issue_states.first_seen_at')->get());
+    }
 
-        foreach ($query->orderBy('a11y_issue_states.first_seen_at')->get() as $row) {
+    /**
+     * One known exception per problem as a reader sees it. The report keeps
+     * a row per element, so two images with no description on one page are
+     * two rows with the same words, and listed as they came the statement
+     * printed the same sentence twice. Rows with the same words, criterion
+     * and page become one exception that says how many places it was found,
+     * at the worst severity among them, in the order the first was seen.
+     *
+     * @param  iterable<object>  $rows  label, message, wcag_criteria, path, impact
+     * @return list<KnownException>
+     */
+    public static function grouped(iterable $rows): array
+    {
+        $groups = [];
+
+        foreach ($rows as $row) {
             $criteria = is_string($row->wcag_criteria) ? (array) json_decode($row->wcag_criteria, true) : (array) $row->wcag_criteria;
             $criterion = isset($criteria[0]) && is_string($criteria[0]) ? $criteria[0] : null;
+            $description = trim((string) $row->label.': '.(string) $row->message);
+            $page = (string) $row->path;
+            $severity = Severity::tryFromLoose($row->impact) ?? Severity::Moderate;
+            $key = $description."\n".($criterion ?? '')."\n".$page;
 
+            $groups[$key] ??= ['description' => $description, 'criterion' => $criterion, 'page' => $page, 'severity' => $severity, 'count' => 0];
+            $groups[$key]['count']++;
+
+            if ($severity->rank() > $groups[$key]['severity']->rank()) {
+                $groups[$key]['severity'] = $severity;
+            }
+        }
+
+        $findings = [];
+
+        foreach ($groups as $key => $group) {
+            $description = $group['description'];
+
+            if ($group['count'] > 1) {
+                $description = rtrim($description, '.').'. Found in '.$group['count'].' places.';
+            }
+
+            // Keyed on the words, criterion and page rather than one element's
+            // fingerprint, so the id holds while some of the places are fixed.
             $findings[] = new KnownException(
-                id: self::NAME.':'.$row->fingerprint,
-                description: trim((string) $row->label.': '.(string) $row->message),
-                severity: Severity::tryFromLoose($row->impact) ?? Severity::Moderate,
+                id: self::NAME.':'.substr(sha1((string) $key), 0, 16),
+                description: $description,
+                severity: $group['severity'],
                 status: KnownException::OPEN,
-                criterion: $criterion,
-                page: (string) $row->path,
+                criterion: $group['criterion'],
+                page: $group['page'],
                 reason: null,
                 remediationDate: null,
                 source: self::NAME,

@@ -223,7 +223,7 @@ Published to `config/statamic-a11y-state.php`. The keys:
 
 ## Verified, and not
 
-The suite is 129 tests, Pest, green on PHP 8.4 with Statamic 6.31 and on
+The suite is 132 tests, Pest, green on PHP 8.4 with Statamic 6.31 and on
 PHP 8.2 with the oldest dependencies, in CI. The
 seven rules the addon exists to enforce each have their own test, and
 each was mutation-tested: the rule it guards was broken and the test went
