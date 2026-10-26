@@ -25,6 +25,13 @@ async function open(page: Page, voiceOver: VoiceOver, path: string) {
         await snooze.click();
     }
 
+    // Guidepup waits for <body> to be visible before moving VoiceOver into
+    // the page. Statamic's control panel draws everything in fixed boxes, so
+    // its body is 0px tall and never counts as visible: the first run waited
+    // out its whole timeout here. One pixel of height changes nothing
+    // VoiceOver reads.
+    await page.addStyleTag({ content: "body { min-height: 1px; }" });
+
     await voiceOver.navigateToWebContent();
 }
 

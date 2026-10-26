@@ -11,9 +11,11 @@ import { withGuidepup } from "@guidepup/playwright";
  * only follow one window.
  */
 export default withGuidepup({
-    timeout: 10 * 60 * 1000,
+    // Long enough for a slow VoiceOver, short enough that a stall cannot
+    // use up the job: the first run spent 30 minutes on one wait.
+    timeout: 4 * 60 * 1000,
     reportSlowTests: null,
-    retries: process.env.CI ? 2 : 0,
+    retries: process.env.CI ? 1 : 0,
     outputDir: "./test-results",
     reporter: process.env.CI ? [["github"], ["list"], ["html", { open: "never" }]] : "list",
     use: {
