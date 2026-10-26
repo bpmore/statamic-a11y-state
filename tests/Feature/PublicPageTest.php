@@ -98,7 +98,7 @@ it('runs with no other bpmore addon and the null source in effect', function () 
 it('has no em dash anywhere in the repository', function () {
     $offenders = [];
 
-    foreach (['src', 'config', 'resources', 'routes', 'docs', 'tests'] as $dir) {
+    foreach (['src', 'config', 'resources', 'routes', 'docs', 'tests', 'voiceover', '.github'] as $dir) {
         $path = __DIR__.'/../../'.$dir;
 
         if (! is_dir($path)) {
@@ -106,6 +106,11 @@ it('has no em dash anywhere in the repository', function () {
         }
 
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $file) {
+            // Installed packages are someone else's text.
+            if (str_contains($file->getPathname(), '/node_modules/')) {
+                continue;
+            }
+
             if (str_contains((string) file_get_contents($file->getPathname()), "\u{2014}")) {
                 $offenders[] = $file->getPathname();
             }

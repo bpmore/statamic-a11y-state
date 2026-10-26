@@ -134,7 +134,8 @@
                         @elseif ($d->hint || $d->inferred)
                             <p id="{{ $id }}-hint" class="text-sm text-gray-600 dark:text-gray-400 mt-1">
                                 @if ($d->hint) @a11yStateText($d->hint) @endif
-                                @if ($d->inferred) This field is not required by the regime's own text; it is here from the W3C model. @endif
+                                {{-- Worded by whether the field is required here: VoiceOver read "(required)" and then "not required by the regime's own text", which sounds like a contradiction. --}}
+                                @if ($d->inferred && $required) Required here because the W3C model asks for it. The regime's own text does not. @elseif ($d->inferred) From the W3C model. The regime's own text does not ask for it. @endif
                             </p>
                         @endif
                         <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Source: @a11yStateText($d->source)</p>
@@ -162,7 +163,7 @@
                     {{-- Scrolls sideways on a narrow screen instead of pushing the page out: a seven-column table at phone width otherwise clips or overflows. Focusable and named by its caption because Safari keeps the keyboard out of a scroll area otherwise, which left the columns past the edge out of reach. --}}
 <div class="overflow-x-auto" tabindex="0" role="region" aria-labelledby="a11y-state-exceptions-caption">
 <table class="w-full text-sm">
-                        <caption id="a11y-state-exceptions-caption" class="text-left font-medium mb-2"><span class="sr-only">Known exceptions: </span>@a11yStateText(count($s->openExceptions()) + count($external)) open, @a11yStateText(count($s->exceptions) - count($s->openExceptions())) resolved</caption>
+                        <caption id="a11y-state-exceptions-caption" class="text-left font-medium mb-2"><span class="sr-only">Known exceptions:&nbsp;</span>@a11yStateText(count($s->openExceptions()) + count($external)) open, @a11yStateText(count($s->exceptions) - count($s->openExceptions())) resolved</caption>
                         <thead>
                             <tr class="text-left">
                                 <th scope="col" class="py-1 pe-3">Description</th>

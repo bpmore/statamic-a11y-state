@@ -365,3 +365,16 @@ it('uses no left or right padding classes, which the control panel stylesheet do
         expect($m[1])->toBe([], basename($file));
     }
 });
+
+it('words the W3C-model note by whether the field is required here', function () {
+    // VoiceOver read "Commitment to accessibility (required)" and then "This
+    // field is not required by the regime's own text", which sounds like a
+    // contradiction. Under ADA Title II every disclosure is from the W3C model.
+    $this->post(cp_route('utilities.a11y-state.save'), fields('ada_title_ii'))->assertSessionHas('success');
+
+    $text = pageText(utilityHtml());
+
+    expect($text)->toContain('Required here because the W3C model asks for it. The regime\'s own text does not.');
+    expect($text)->toContain('From the W3C model. The regime\'s own text does not ask for it.');
+    expect($text)->not->toContain('not required by the regime');
+});

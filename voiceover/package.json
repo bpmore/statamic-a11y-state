@@ -1,0 +1,13 @@
+{
+    "name": "a11y-state-voiceover",
+    "private": true,
+    "description": "Drives VoiceOver through the A11y State control panel and public page, and records what it says. Runs in CI on macOS; see .github/workflows/voiceover.yml.",
+    "scripts": {
+        "test": "playwright test"
+    },
+    "devDependencies": {
+        "@guidepup/guidepup": "0.38.0",
+        "@guidepup/playwright": "0.21.0",
+        "@playwright/test": "1.64.1"
+    }
+}
