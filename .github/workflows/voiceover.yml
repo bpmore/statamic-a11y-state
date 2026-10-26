@@ -1,0 +1,99 @@
+name: VoiceOver
+
+# A real VoiceOver, driven by Guidepup on a macOS runner, through the
+# control panel and the public statement of a fresh Statamic site with this
+# checkout installed. What VoiceOver said is on the run's summary page and
+# in the "voiceover" artifact. Free on a public repository.
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths: ['resources/**', 'src/**', 'routes/**', 'voiceover/**', '.github/workflows/voiceover.yml']
+  push:
+    branches: [main]
+    paths: ['resources/**', 'src/**', 'routes/**', 'voiceover/**', '.github/workflows/voiceover.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  voiceover:
+    name: VoiceOver, Safari engine
+    runs-on: macos-15
+    timeout-minutes: 45
+    env:
+      CI: 'true'
+      BASE_URL: http://127.0.0.1:8765
+      # A throwaway account on a throwaway site that exists only for this job.
+      VO_EMAIL: voiceover@example.test
+      VO_PASSWORD: voiceover-ci-only
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Let VoiceOver be automated
+        run: npx -y @guidepup/setup@0.29.3 setup --ci --macos-record
+
+      - name: Build a fresh Statamic site with this checkout installed
+        run: |
+          composer create-project statamic/statamic "$RUNNER_TEMP/site" --prefer-dist --no-interaction --quiet
+          cd "$RUNNER_TEMP/site"
+          composer config repositories.a11y-state path "$GITHUB_WORKSPACE"
+          composer require "bpmore/statamic-a11y-state:*@dev" --no-interaction --quiet
+          php please vendor:publish --tag=statamic-a11y-state-config
+          php -r '$f = "config/statamic-a11y-state.php"; $c = file_get_contents($f); $c = preg_replace("/(\x27feedback\x27 => \[\s*\x27form\x27 => )null/", "\${1}\x27accessibility\x27", $c, 1, $n); if ($n !== 1) { fwrite(STDERR, "feedback.form not found\n"); exit(1); } file_put_contents($f, $c);'
+          sed -i '' 's#^APP_URL=.*#APP_URL=http://127.0.0.1:8765#' .env
+          php artisan tinker --execute='
+            \Statamic\Facades\User::make()->email(env("VO_EMAIL"))->password(env("VO_PASSWORD"))->data(["name" => "Jordan Lee"])->makeSuper()->save();
+            $form = \Statamic\Facades\Form::make("accessibility")->title("Accessibility feedback");
+            $form->save();
+            \Statamic\Facades\FormSubmission::make()->form($form)->id((string) strtotime("-3 days"))->data(["message" => "The search button is not announced."])->save();
+            echo "seeded";
+          '
+
+      - name: Serve the site
+        run: |
+          cd "$RUNNER_TEMP/site"
+          nohup php artisan serve --host=127.0.0.1 --port=8765 > "$RUNNER_TEMP/serve.log" 2>&1 &
+          for i in $(seq 1 30); do
+            [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8765/accessibility-statement)" = 200 ] && exit 0
+            sleep 1
+          done
+          cat "$RUNNER_TEMP/serve.log"
+          exit 1
+
+      - name: Install the test runner
+        working-directory: voiceover
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install webkit
+          npx -y @guidepup/setup@0.29.3 install
+
+      - name: Walk every screen with VoiceOver
+        working-directory: voiceover
+        run: npx playwright test
+
+      - name: Put what VoiceOver said on the summary page
+        if: always()
+        working-directory: voiceover
+        run: node summary.mjs
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: voiceover
+          path: |
+            voiceover/test-results/
+            voiceover/playwright-report/
+            recordings/
+            ${{ runner.temp }}/serve.log
+          retention-days: 14

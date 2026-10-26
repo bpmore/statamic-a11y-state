@@ -6,3 +6,8 @@ composer.lock
 /.phpunit.cache
 /.playwright-mcp
 /.agents
+/voiceover/node_modules
+/voiceover/test-results
+/voiceover/playwright-report
+/voiceover/package-lock.json
+/recordings
