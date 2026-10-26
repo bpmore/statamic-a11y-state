@@ -355,3 +355,13 @@ it('names only icons that Statamic ships', function () {
         expect(\Composer\InstalledVersions::getInstallPath('statamic/cms').'/resources/svg/icons/'.$icon.'.svg')->toBeFile();
     }
 });
+
+it('uses no left or right padding classes, which the control panel stylesheet does not have', function () {
+    // pr-3 on every table cell gave the columns no gap ("CriterionPage",
+    // "Moderate1.1.1"): Statamic's stylesheet has the logical pe-* and ps-*
+    // classes and not pr-* or pl-*, and a missing class fails silently.
+    foreach (glob(__DIR__.'/../../resources/views/utilities/*.blade.php') as $file) {
+        preg_match_all('/class="[^"]*\b(p[lr]-\d+)\b/', (string) file_get_contents($file), $m);
+        expect($m[1])->toBe([], basename($file));
+    }
+});

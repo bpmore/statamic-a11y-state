@@ -5,8 +5,10 @@ declare(strict_types=1);
 use Bpmore\A11yState\Statement\ConformanceStatus;
 use Bpmore\A11yState\Statement\Generator;
 use Bpmore\A11yState\Statement\HtmlRenderer;
+use Bpmore\A11yState\Statement\KnownException;
 use Bpmore\A11yState\Statement\MarkdownRenderer;
 use Bpmore\A11yState\Statement\Section;
+use Bpmore\A11yState\Statement\Severity;
 
 function generate(\Bpmore\A11yState\Statement\Statement $statement, array $external = [], ?int $responseDays = null): \Bpmore\A11yState\Statement\Document
 {
@@ -20,6 +22,26 @@ it('says partially conformant with the exceptions listed, each with criterion, p
     expect($document->status)->toBe(ConformanceStatus::PartiallyConformant);
     expect($sections['conformance']->paragraphs[1])->toBe('This website is partially conformant with Example Standard, version and level, due to the exceptions listed below.');
     expect($sections['exceptions']->items)->toBe(['Images in the gallery have no text alternative (WCAG 1.1.1) on /gallery. Reason: Legacy uploads. Planned fix: 2026-12-01.']);
+});
+
+it('ends each part of an exception with one full stop, whatever the editor typed', function () {
+    // A reason typed as "made on request." printed "made on request.." on the
+    // published statement, and so did a description with no criterion or page.
+    $typed = new KnownException(
+        id: 'e2',
+        description: 'The carousel cannot be paused.',
+        severity: Severity::Serious,
+        status: KnownException::OPEN,
+        criterion: null,
+        page: null,
+        reason: 'Accessible copies are made on request.',
+        remediationDate: null,
+    );
+
+    $document = generate(completeStatement('w3c')->withExceptions([$typed]));
+    $sections = array_combine(array_map(fn (Section $s) => $s->key, $document->sections), $document->sections);
+
+    expect($sections['exceptions']->items)->toBe(['The carousel cannot be paused. Reason: Accessible copies are made on request.']);
 });
 
 it('lists an open finding from an integration among the exceptions', function () {

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Bpmore\A11yState\Tags;
 
+use Bpmore\A11yState\Http\Controllers\StatementStylesheetController;
 use Bpmore\A11yState\Statement\HtmlRenderer;
 use Bpmore\A11yState\Statements;
+use Illuminate\Support\Facades\Route;
 use Statamic\Facades\Site;
 use Statamic\Tags\Tags;
 
@@ -36,9 +38,24 @@ class A11yState extends Tags
         if ($document === null) {
             $h = max(1, min(6, $level));
 
-            return "<article class=\"a11y-state-statement a11y-state-statement--unavailable\" lang=\"en\"><h{$h}>Accessibility statement</h{$h}><p>An accessibility statement for this site is being prepared and is not yet published.</p></article>";
+            return $this->stylesheet()."<article class=\"a11y-state-statement a11y-state-statement--unavailable\" lang=\"en\"><h{$h}>Accessibility statement</h{$h}><p>An accessibility statement for this site is being prepared and is not yet published.</p></article>";
         }
 
-        return (new HtmlRenderer)->render($document, $level);
+        return $this->stylesheet().(new HtmlRenderer)->render($document, $level);
+    }
+
+    /**
+     * The link to the statement's readable default styles, or nothing when
+     * the config turns them off. See resources/css/statement.css.
+     */
+    private function stylesheet(): string
+    {
+        if (config('statamic-a11y-state.statement_styles', true) === false || ! Route::has('a11y-state.stylesheet')) {
+            return '';
+        }
+
+        $href = htmlspecialchars(route('a11y-state.stylesheet', ['v' => StatementStylesheetController::version()]), ENT_QUOTES, 'UTF-8');
+
+        return "<link rel=\"stylesheet\" href=\"{$href}\">\n";
     }
 }

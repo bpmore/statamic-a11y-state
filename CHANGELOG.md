@@ -9,6 +9,15 @@ Newest first. Before 1.0, a breaking change raises the minor version.
   printed the same sentence twice in the statement. They are now one known
   exception that says "Found in 2 places", at the worst severity among
   them.
+- The public statement reads well on a site whose CSS resets headings and
+  lists. The tag links a small stylesheet of its own: heading sizes,
+  bullets, a readable width and margins. Its rules weigh no more than a
+  plain element rule, so a theme rule that names a class wins, and
+  `statement_styles` set to `false` turns it off.
+- A reason or description typed with a full stop no longer prints two
+  ("made on request..").
+- The control panel tables have space between their columns. They used
+  `pr-3`, which Statamic's stylesheet does not have; they now use `pe-3`.
 
 ## 0.1.1 - 2026-10-26
 

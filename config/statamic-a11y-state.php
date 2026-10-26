@@ -34,6 +34,16 @@ return [
     'layout' => null,
 
     /*
+    | The tag links a small stylesheet so the statement reads well on a
+    | site whose CSS resets headings and lists: heading sizes, bullets, a
+    | readable width. Any rule of the site's that names a class wins over
+    | it. Set to false to style the statement entirely yourself; the
+    | wrapper is <article class="a11y-state-statement">.
+    */
+
+    'statement_styles' => true,
+
+    /*
     |---------------------------------------------------------------------------
     | Storage
     |---------------------------------------------------------------------------

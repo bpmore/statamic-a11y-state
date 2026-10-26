@@ -69,10 +69,13 @@ protect that.
 - Native form controls with visible labels, inside plain forms, so every
   screen works with no script. No `aria-label` on non-interactive elements.
   Nothing means anything by colour alone.
-- Only classes the CP stylesheet actually has. `list-disc`, `pl-*`,
+- Only classes the CP stylesheet actually has. `list-disc`, `pl-*`, `pr-*`,
   `align-top`, `border-amber-600` and `prose-invert` are not in it (checked
-  against Statamic 6.31); `ps-*`, `border-amber-400`, `align-middle` are.
-  Check `resources/dist/build/assets/app-*.css` before using a new one.
+  against Statamic 6.31, `pr-*` against 6.38); `ps-*`, `pe-*`,
+  `border-amber-400`, `align-middle` are. Check
+  `resources/dist/build/assets/app-*.css` before using a new one, then
+  confirm in the browser: a text search found a lookalike of `pr-3` that
+  never applied.
 - The directive is `@a11yStateText`, the utility slug `a11y-state`, the permission
   group `a11y-state`, the route `/accessibility-statement`. A11y Report
   owns `@plain`, `a11y-report`, and `/accessibility`. Do not collide.

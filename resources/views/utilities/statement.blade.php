@@ -165,24 +165,24 @@
                         <caption id="a11y-state-exceptions-caption" class="text-left font-medium mb-2"><span class="sr-only">Known exceptions: </span>@a11yStateText(count($s->openExceptions()) + count($external)) open, @a11yStateText(count($s->exceptions) - count($s->openExceptions())) resolved</caption>
                         <thead>
                             <tr class="text-left">
-                                <th scope="col" class="py-1 pr-3">Description</th>
-                                <th scope="col" class="py-1 pr-3">Severity</th>
-                                <th scope="col" class="py-1 pr-3">Criterion</th>
-                                <th scope="col" class="py-1 pr-3">Page</th>
-                                <th scope="col" class="py-1 pr-3">Planned fix</th>
-                                <th scope="col" class="py-1 pr-3">Status</th>
+                                <th scope="col" class="py-1 pe-3">Description</th>
+                                <th scope="col" class="py-1 pe-3">Severity</th>
+                                <th scope="col" class="py-1 pe-3">Criterion</th>
+                                <th scope="col" class="py-1 pe-3">Page</th>
+                                <th scope="col" class="py-1 pe-3">Planned fix</th>
+                                <th scope="col" class="py-1 pe-3">Status</th>
                                 @if ($canEdit)<th scope="col" class="py-1">Resolve</th>@endif
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($s->exceptions as $e)
                                 <tr class="border-t border-gray-200 dark:border-gray-800 align-middle">
-                                    <td class="py-1 pr-3">@a11yStateText($e->description)@if ($e->reason) <span class="text-gray-600 dark:text-gray-400">Reason: @a11yStateText($e->reason)</span>@endif</td>
-                                    <td class="py-1 pr-3">@a11yStateText($e->severity->label())</td>
-                                    <td class="py-1 pr-3">@a11yStateText($e->criterion ?? '')</td>
-                                    <td class="py-1 pr-3">@a11yStateText($e->page ?? '')</td>
-                                    <td class="py-1 pr-3">@a11yStateText($e->remediationDate ?? '')</td>
-                                    <td class="py-1 pr-3">@a11yStateText(ucfirst($e->status))</td>
+                                    <td class="py-1 pe-3">@a11yStateText($e->description)@if ($e->reason) <span class="text-gray-600 dark:text-gray-400">Reason: @a11yStateText($e->reason)</span>@endif</td>
+                                    <td class="py-1 pe-3">@a11yStateText($e->severity->label())</td>
+                                    <td class="py-1 pe-3">@a11yStateText($e->criterion ?? '')</td>
+                                    <td class="py-1 pe-3">@a11yStateText($e->page ?? '')</td>
+                                    <td class="py-1 pe-3">@a11yStateText($e->remediationDate ?? '')</td>
+                                    <td class="py-1 pe-3">@a11yStateText(ucfirst($e->status))</td>
                                     @if ($canEdit)
                                         <td class="py-1">
                                             @if ($e->isOpen())
@@ -195,12 +195,12 @@
                             @endforeach
                             @foreach ($external as $e)
                                 <tr class="border-t border-gray-200 dark:border-gray-800 align-middle">
-                                    <td class="py-1 pr-3">@a11yStateText($e->description) <span class="text-gray-600 dark:text-gray-400">(from @a11yStateText($e->source))</span></td>
-                                    <td class="py-1 pr-3">@a11yStateText($e->severity->label())</td>
-                                    <td class="py-1 pr-3">@a11yStateText($e->criterion ?? '')</td>
-                                    <td class="py-1 pr-3">@a11yStateText($e->page ?? '')</td>
-                                    <td class="py-1 pr-3"></td>
-                                    <td class="py-1 pr-3">Open</td>
+                                    <td class="py-1 pe-3">@a11yStateText($e->description) <span class="text-gray-600 dark:text-gray-400">(from @a11yStateText($e->source))</span></td>
+                                    <td class="py-1 pe-3">@a11yStateText($e->severity->label())</td>
+                                    <td class="py-1 pe-3">@a11yStateText($e->criterion ?? '')</td>
+                                    <td class="py-1 pe-3">@a11yStateText($e->page ?? '')</td>
+                                    <td class="py-1 pe-3"></td>
+                                    <td class="py-1 pe-3">Open</td>
                                     @if ($canEdit)<td class="py-1"><span class="text-gray-600 dark:text-gray-400">Closed in @a11yStateText($e->source)</span></td>@endif
                                 </tr>
                             @endforeach
