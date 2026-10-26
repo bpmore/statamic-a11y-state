@@ -2,7 +2,7 @@
 
 Newest first. Before 1.0, a breaking change raises the minor version.
 
-## Unreleased
+## 0.1.2 - 2026-10-26
 
 - A11y Report findings are listed once per problem and page. The report
   keeps a row per element, so two images with no description on one page
@@ -18,6 +18,9 @@ Newest first. Before 1.0, a breaking change raises the minor version.
   ("made on request..").
 - The control panel tables have space between their columns. They used
   `pr-3`, which Statamic's stylesheet does not have; they now use `pe-3`.
+
+Nothing to do: `composer update bpmore/statamic-a11y-state`. To style the
+statement entirely yourself, set `statement_styles` to `false`.
 
 ## 0.1.1 - 2026-10-26
 
