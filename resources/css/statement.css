@@ -1,0 +1,66 @@
+/*
+ * A readable default for the accessibility statement, linked by the
+ * a11y_state:statement tag. A site whose stylesheet resets headings and
+ * lists (Tailwind's preflight does) otherwise showed the statement with
+ * every heading the size of body text, lists with no bullets, and text
+ * against the edge of the window.
+ *
+ * The wrapper is inside :where(), so each rule weighs the same as a plain
+ * element rule: it wins over a reset that loaded earlier, and any rule of
+ * the site's that names a class wins over it. Turn it off with
+ * 'statement_styles' => false in config/statamic-a11y-state.php.
+ */
+
+:where(.a11y-state-statement) {
+    display: block;
+    max-width: 48rem;
+    margin-inline: auto;
+    padding: 1.5rem 1.25rem;
+    line-height: 1.6;
+}
+
+:where(.a11y-state-statement) h1 {
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 0.5em;
+}
+
+:where(.a11y-state-statement) h2 {
+    font-size: 1.5em;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 1.5em 0 0.5em;
+}
+
+:where(.a11y-state-statement) h3,
+:where(.a11y-state-statement) h4,
+:where(.a11y-state-statement) h5,
+:where(.a11y-state-statement) h6 {
+    font-size: 1.2em;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.25em 0 0.5em;
+}
+
+:where(.a11y-state-statement) p,
+:where(.a11y-state-statement) ul {
+    margin: 0 0 1em;
+}
+
+:where(.a11y-state-statement) ul {
+    list-style: disc;
+    padding-inline-start: 1.5em;
+}
+
+:where(.a11y-state-statement) li + li {
+    margin-top: 0.35em;
+}
+
+:where(.a11y-state-statement) a {
+    text-decoration: underline;
+}
+
+:where(.a11y-state-statement) small {
+    font-size: 0.875em;
+}

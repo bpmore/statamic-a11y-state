@@ -73,24 +73,24 @@
                     <caption id="a11y-state-records-caption" class="sr-only">Evidence records, newest first</caption>
                     <thead>
                         <tr class="text-left">
-                            <th scope="col" class="py-1 pr-3">When</th>
-                            <th scope="col" class="py-1 pr-3">Actor</th>
-                            <th scope="col" class="py-1 pr-3">Action</th>
-                            <th scope="col" class="py-1 pr-3">Criterion</th>
-                            <th scope="col" class="py-1 pr-3">Page or subject</th>
-                            <th scope="col" class="py-1 pr-3">Notes</th>
+                            <th scope="col" class="py-1 pe-3">When</th>
+                            <th scope="col" class="py-1 pe-3">Actor</th>
+                            <th scope="col" class="py-1 pe-3">Action</th>
+                            <th scope="col" class="py-1 pe-3">Criterion</th>
+                            <th scope="col" class="py-1 pe-3">Page or subject</th>
+                            <th scope="col" class="py-1 pe-3">Notes</th>
                             <th scope="col" class="py-1">Record</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($records as $r)
                             <tr class="border-t border-gray-200 dark:border-gray-800 align-middle">
-                                <td class="py-1 pr-3 whitespace-nowrap"><time datetime="@a11yStateText($r->at)">@a11yStateText(str_replace('T', ' ', substr($r->at, 0, 16)))</time></td>
-                                <td class="py-1 pr-3">@a11yStateText($r->actor)</td>
-                                <td class="py-1 pr-3">@a11yStateText(\Bpmore\A11yState\Evidence\Actions::label($r->action))</td>
-                                <td class="py-1 pr-3">@a11yStateText($r->criterion ?? '')</td>
-                                <td class="py-1 pr-3">@a11yStateText($r->subject ?? '')</td>
-                                <td class="py-1 pr-3">@a11yStateText($r->notes)</td>
+                                <td class="py-1 pe-3 whitespace-nowrap"><time datetime="@a11yStateText($r->at)">@a11yStateText(str_replace('T', ' ', substr($r->at, 0, 16)))</time></td>
+                                <td class="py-1 pe-3">@a11yStateText($r->actor)</td>
+                                <td class="py-1 pe-3">@a11yStateText(\Bpmore\A11yState\Evidence\Actions::label($r->action))</td>
+                                <td class="py-1 pe-3">@a11yStateText($r->criterion ?? '')</td>
+                                <td class="py-1 pe-3">@a11yStateText($r->subject ?? '')</td>
+                                <td class="py-1 pe-3">@a11yStateText($r->notes)</td>
                                 <td class="py-1 text-xs">
                                     <code>@a11yStateText($r->id)</code>
                                     @if ($r->supersedes)<div>Corrects @a11yStateText($r->supersedes)</div>@endif

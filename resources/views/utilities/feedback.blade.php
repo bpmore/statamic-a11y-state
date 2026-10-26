@@ -33,20 +33,20 @@
                         <caption id="a11y-state-feedback-caption" class="sr-only">Feedback submissions, newest first</caption>
                         <thead>
                             <tr class="text-left">
-                                <th scope="col" class="py-1 pr-3">Received</th>
-                                <th scope="col" class="py-1 pr-3">Summary</th>
-                                <th scope="col" class="py-1 pr-3">Waited</th>
-                                <th scope="col" class="py-1 pr-3">Status</th>
+                                <th scope="col" class="py-1 pe-3">Received</th>
+                                <th scope="col" class="py-1 pe-3">Summary</th>
+                                <th scope="col" class="py-1 pe-3">Waited</th>
+                                <th scope="col" class="py-1 pe-3">Status</th>
                                 @if ($canRecord)<th scope="col" class="py-1">Acknowledge</th>@endif
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($report->rows as $row)
                                 <tr class="border-t border-gray-200 dark:border-gray-800 align-middle">
-                                    <td class="py-1 pr-3 whitespace-nowrap"><time datetime="@a11yStateText($row->submission->at)">@a11yStateText(substr($row->submission->at, 0, 10))</time></td>
-                                    <td class="py-1 pr-3">@a11yStateText($row->submission->summary)</td>
-                                    <td class="py-1 pr-3">{{ $row->days }} {{ $row->days === 1 ? 'day' : 'days' }}</td>
-                                    <td class="py-1 pr-3">
+                                    <td class="py-1 pe-3 whitespace-nowrap"><time datetime="@a11yStateText($row->submission->at)">@a11yStateText(substr($row->submission->at, 0, 10))</time></td>
+                                    <td class="py-1 pe-3">@a11yStateText($row->submission->summary)</td>
+                                    <td class="py-1 pe-3">{{ $row->days }} {{ $row->days === 1 ? 'day' : 'days' }}</td>
+                                    <td class="py-1 pe-3">
                                         @if ($row->isAcknowledged())
                                             Acknowledged by @a11yStateText($row->acknowledgedBy) on @a11yStateText(substr((string) $row->acknowledgedAt, 0, 10))
                                         @elseif ($row->overdue)

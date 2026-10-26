@@ -50,6 +50,38 @@ it('renders through the tag inside a page of the site, headings from h2 by defau
     expect($out)->toContain('Images in the gallery have no text alternative');
 });
 
+it('links a stylesheet a reset cannot flatten and a theme class can override, and serves it', function () {
+    // A site whose CSS resets headings and lists showed the statement with
+    // every heading at body size and lists with no bullets.
+    saveStatement();
+
+    $page = $this->get('/accessibility-statement')->assertOk()->getContent();
+    preg_match('/<link rel="stylesheet" href="([^"]+)">\s*<article class="a11y-state-statement"/', $page, $m);
+    expect($m)->not->toBe([]);
+    expect($m[1])->toContain('/a11y-state/statement.css?v=');
+
+    $css = $this->get(parse_url(html_entity_decode($m[1]), PHP_URL_PATH))->assertOk();
+    expect($css->headers->get('Content-Type'))->toStartWith('text/css');
+    expect($css->getContent())->toContain(':where(.a11y-state-statement) h2');
+    expect($css->getContent())->toContain('list-style: disc');
+
+    // Every rule's wrapper is inside :where(), so no rule outweighs a class.
+    preg_match_all('/^([^\s{}\/*][^{]*)\{/m', $css->getContent(), $selectors);
+    foreach (array_merge(...array_map(fn ($s) => explode(',', $s), $selectors[1])) as $selector) {
+        expect(trim($selector))->toStartWith(':where(.a11y-state-statement)');
+    }
+});
+
+it('links no stylesheet when the config turns it off', function () {
+    saveStatement();
+    config()->set('statamic-a11y-state.statement_styles', false);
+
+    $out = (string) Antlers::parse('{{ a11y_state:statement }}', [], true);
+
+    expect($out)->not->toContain('<link');
+    expect($out)->toContain('<article class="a11y-state-statement"');
+});
+
 it('runs with no other bpmore addon and the null source in effect', function () {
     $statements = app(\Bpmore\A11yState\Statements::class);
 

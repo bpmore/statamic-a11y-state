@@ -115,8 +115,13 @@ To put the statement inside a page of your own:
 ```
 
 The output is plain HTML: one heading for the title, one level down for
-each section, paragraphs and lists, no classes that need a stylesheet, no
-script, and a `lang` attribute. It was checked with axe-core against the
+each section, paragraphs and lists, no script, and a `lang` attribute.
+The tag also links a small stylesheet, served by the addon at
+`/a11y-state/statement.css`, so the statement reads well on a site whose
+CSS resets headings and lists: heading sizes, bullets, a readable width.
+Its rules weigh no more than a plain element rule, so any rule of your
+theme's that names a class wins. Set `statement_styles` to `false` to
+style the `<article class="a11y-state-statement">` yourself. It was checked with axe-core against the
 WCAG 2.1 A and AA rules and with a keyboard walk of every control panel
 screen. A site whose layout is Blade with `@yield` has no layout Statamic
 can wrap the page in; the page then renders in a plain shell of the
@@ -199,6 +204,7 @@ a site may want different people doing each.
 Published to `config/statamic-a11y-state.php`. The keys:
 
 - `route`, `view`, `layout`: the public page.
+- `statement_styles`: the statement's own stylesheet, on by default.
 - `storage.statements`, `storage.evidence`: the two directories.
 - `storage.evidence_driver` (`yaml` or `eloquent`) and
   `storage.evidence_connection`.
@@ -223,7 +229,7 @@ Published to `config/statamic-a11y-state.php`. The keys:
 
 ## Verified, and not
 
-The suite is 132 tests, Pest, green on PHP 8.4 with Statamic 6.31 and on
+The suite is 136 tests, Pest, green on PHP 8.4 with Statamic 6.31 and on
 PHP 8.2 with the oldest dependencies, in CI. The
 seven rules the addon exists to enforce each have their own test, and
 each was mutation-tested: the rule it guards was broken and the test went

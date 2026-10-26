@@ -154,10 +154,10 @@ final class Generator
             $parts[] = "on {$e->page}";
         }
 
-        $line = implode(' ', $parts).'.';
+        $line = self::sentence(implode(' ', $parts));
 
         if ($e->reason !== null) {
-            $line .= " Reason: {$e->reason}.";
+            $line .= ' '.self::sentence("Reason: {$e->reason}");
         }
 
         if ($e->remediationDate !== null) {
@@ -165,6 +165,18 @@ final class Generator
         }
 
         return $line;
+    }
+
+    /**
+     * Ends the text with a full stop unless it already ends a sentence. People
+     * type their own: a reason of "made on request." printed "made on
+     * request.." on the published statement.
+     */
+    private static function sentence(string $text): string
+    {
+        $text = rtrim($text);
+
+        return preg_match('/[.!?]$/', $text) === 1 ? $text : $text.'.';
     }
 
     private function dated(string $lead, ?string $date): ?string

@@ -7,6 +7,31 @@ not edited when they stop being true; a reversal gets a newer entry.
 
 ---
 
+## 2026-10-26: The statement links a stylesheet of its own
+
+Until now the statement was plain HTML with no styling, on the reasoning
+that it should read the same in any theme. A fresh-site install and the
+greenhouse theme showed the cost: a CSS reset (Tailwind's preflight, and
+most themes built on it) set every heading to body size, took the bullets
+off the lists and left the text against the window's edge. The page a
+reviewer opens first looked broken.
+
+**Kept:** the tag links `/a11y-state/statement.css`, served by the addon
+(nothing to publish), with heading sizes, bullets, a readable width and
+margins. Every selector is `:where(.a11y-state-statement) <element>`, so a
+rule weighs the same as a reset's element rule and wins by coming later,
+and any theme rule naming a class wins over it. No colours and no fonts,
+so the theme's stay. `statement_styles` set to `false` turns it off.
+
+**Rejected:** a `<style>` element in the tag's output (not allowed in a
+page's body, so the statement page would not validate; a
+`<link rel="stylesheet">` is allowed there); inline `style` attributes
+(they outweigh every theme rule); zero-weight selectors throughout (a
+reset's element rule outweighs them, which was the problem); publishing
+the file to `public/vendor` (one more install step to forget).
+
+---
+
 ## 2026-10-23: Panels carry real headings, and wide tables take keyboard focus
 
 A phone-width pass over the control panel found two things a screen reader

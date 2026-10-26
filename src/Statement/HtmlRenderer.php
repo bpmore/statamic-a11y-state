@@ -7,9 +7,9 @@ namespace Bpmore\A11yState\Statement;
 /**
  * The document as an HTML fragment: one heading for the title at the level
  * asked for, one level down for each section, paragraphs and lists. No
- * classes, no script, no styling, so it reads the same in any theme and in
- * any reader, and nothing in it needs JavaScript or colour to mean
- * anything.
+ * script and no inline styling, so nothing in it needs JavaScript or colour
+ * to mean anything. The classes are hooks only: the tag links an optional
+ * stylesheet that uses the wrapper's, and a theme can use any of them.
  *
  * A paragraph or item that is a bare URL becomes a link whose text is the
  * URL, so the destination is what a screen reader announces.
