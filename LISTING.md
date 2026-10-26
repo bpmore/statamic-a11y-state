@@ -18,8 +18,8 @@ Listing name:
 
 "Accessibility statement" is what the buyer searches for: a council, a
 university, a hospital that has to publish one. Shortened by the owner on
-26 October 2026 from "...That Match the Evidence", which made the Buy
-button run to two lines; the one-liner below still carries that idea.
+26 October 2026 from "...That Match the Evidence"; the one-liner below
+still carries that idea.
 
 ## Price
 
