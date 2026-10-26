@@ -19,9 +19,9 @@ the thing no generator does.
 
 ## Price
 
-$99 per site (one production install, however many sites it hosts).
+$79 per site (one production install, however many sites it hosts).
 
-The build brief set $99 as the target. Confirm before submitting.
+Set by the owner on 26 October 2026, down from the build brief's $99.
 
 ## One-liner
 
