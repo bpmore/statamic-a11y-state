@@ -57,8 +57,14 @@ async function walk(voiceOver: VoiceOver, command: unknown, steps = MAX_STEPS): 
     return spoken;
 }
 
+/**
+ * Whether one phrase carries every part. Spaces are compared as spaces:
+ * VoiceOver hands back a non-breaking space as it is, and says it the same.
+ */
 function said(spoken: string[], ...parts: (string | RegExp)[]): boolean {
-    return spoken.some((phrase) => parts.every((part) => (typeof part === "string" ? phrase.toLowerCase().includes(part.toLowerCase()) : part.test(phrase))));
+    const plain = (text: string) => text.replace(/\s+/g, " ").toLowerCase();
+
+    return spoken.some((phrase) => parts.every((part) => (typeof part === "string" ? plain(phrase).includes(plain(part)) : part.test(phrase))));
 }
 
 function keep(name: string, transcript: Record<string, string[]>) {
@@ -92,7 +98,9 @@ test.describe("A11y State with VoiceOver in Safari's engine", () => {
         for (let i = 0; i < MAX_STEPS; i++) {
             await voiceOver.perform(voiceOver.keyboardCommands.findNextHeading);
             const phrase = await voiceOver.lastSpokenPhrase();
-            if (phrase.includes("Attest to full conformance") || phrase.startsWith("Last heading")) {
+            // Only the heading itself ends the search: VoiceOver sometimes
+            // says "Last heading" in the middle of a page.
+            if (phrase.includes("Attest to full conformance")) {
                 transcript.attest.push(phrase);
                 break;
             }
@@ -104,7 +112,9 @@ test.describe("A11y State with VoiceOver in Safari's engine", () => {
 
         keep("1-statement-editor", transcript);
 
-        expect.soft(said(transcript.headings, "A11y State", "heading level 1"), "page title is a level 1 heading").toBe(true);
+        // When VoiceOver starts on the title it says "You are currently on a
+        // heading level 1." instead of reading it.
+        expect.soft(said(transcript.headings, "A11y State", "heading level 1") || said(transcript.headings, "currently on a heading level 1"), "page title is a level 1 heading").toBe(true);
         expect.soft(said(transcript.headings, "Profile and claim", "heading level 2"), "panel title is a level 2 heading").toBe(true);
         expect.soft(said(transcript.headings, "Known exceptions", "heading level 2")).toBe(true);
         expect.soft(said(transcript.headings, "Attest to full conformance", "heading level 2")).toBe(true);
