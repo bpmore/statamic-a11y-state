@@ -134,7 +134,8 @@
                         @elseif ($d->hint || $d->inferred)
                             <p id="{{ $id }}-hint" class="text-sm text-gray-600 dark:text-gray-400 mt-1">
                                 @if ($d->hint) @a11yStateText($d->hint) @endif
-                                @if ($d->inferred) This field is not required by the regime's own text; it is here from the W3C model. @endif
+                                {{-- Worded by whether the field is required here: VoiceOver read "(required)" and then "not required by the regime's own text", which sounds like a contradiction. --}}
+                                @if ($d->inferred && $required) Required here because the W3C model asks for it. The regime's own text does not. @elseif ($d->inferred) From the W3C model. The regime's own text does not ask for it. @endif
                             </p>
                         @endif
                         <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Source: @a11yStateText($d->source)</p>

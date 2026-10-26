@@ -8,6 +8,11 @@ Newest first. Before 1.0, a breaking change raises the minor version.
   rather than "Known exceptions:2 open". A space inside the hidden part of
   the caption was dropped from the table's name, as VoiceOver read it in
   CI.
+- A field the regime's own text does not ask for says why it is there in
+  words that agree with its label: "Required here because the W3C model
+  asks for it" or "From the W3C model". VoiceOver read "(required)" and
+  then "not required by the regime's own text", which sounded like a
+  contradiction.
 - A VoiceOver run in CI (macOS, Safari's engine) walks the statement
   editor, the evidence log, the feedback screen and the public statement,
   and posts what VoiceOver said on the run's summary page.

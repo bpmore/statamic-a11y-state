@@ -110,6 +110,8 @@ test.describe("A11y State with VoiceOver in Safari's engine", () => {
         expect.soft(said(transcript.headings, "Attest to full conformance", "heading level 2")).toBe(true);
         expect.soft(said(transcript.controls, "Jurisdiction profile"), "the profile menu has its label").toBe(true);
         expect.soft(said(transcript.controls, "Partially conformant"), "the status radios have their labels").toBe(true);
+        expect.soft(said(transcript.controls, "Commitment to accessibility", "Required here because the W3C model asks for it"), "a required field's note agrees with its label").toBe(true);
+        expect.soft(said(transcript.controls, "not required by the regime"), "no field says required and not required").toBe(false);
         expect.soft(said(transcript.table, "Known exceptions: 2 open"), "the table is named by its caption, with its space").toBe(true);
         expect.soft(said(transcript.scrollRegionWithFocus, "Known exceptions"), "the scroll area takes focus and says what it holds").toBe(true);
         expect.soft(said(transcript.attest, "Not available"), "the refusal is read after its heading").toBe(true);
