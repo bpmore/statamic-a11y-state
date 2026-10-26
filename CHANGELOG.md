@@ -6,9 +6,9 @@ Newest first. Before 1.0, a breaking change raises the minor version.
 
 - The control panel icon shows. The header and the Utilities listing named
   an icon Statamic does not have (`list-checklist`), so both showed a blank
-  space. They now use `document-certificate`, which every supported
-  Statamic version ships, and a test fails on any icon name Statamic does
-  not have.
+  space. They now use `document-certificate`, which is in Statamic 6.27
+  and in 6.38, and a test fails on any icon name the installed Statamic
+  does not have.
 
 Nothing to do: `composer update bpmore/statamic-a11y-state`.
 
