@@ -2,7 +2,7 @@
 
 Newest first. Before 1.0, a breaking change raises the minor version.
 
-## Unreleased
+## 0.1.3 - 2026-10-26
 
 - The known exceptions table is announced as "Known exceptions: 2 open"
   rather than "Known exceptions:2 open". A space inside the hidden part of
@@ -16,6 +16,8 @@ Newest first. Before 1.0, a breaking change raises the minor version.
 - A VoiceOver run in CI (macOS, Safari's engine) walks the statement
   editor, the evidence log, the feedback screen and the public statement,
   and posts what VoiceOver said on the run's summary page.
+
+Nothing to do: `composer update bpmore/statamic-a11y-state`.
 
 ## 0.1.2 - 2026-10-26
 

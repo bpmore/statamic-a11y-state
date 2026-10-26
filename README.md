@@ -229,7 +229,7 @@ Published to `config/statamic-a11y-state.php`. The keys:
 
 ## Verified, and not
 
-The suite is 136 tests, Pest, green on PHP 8.4 with Statamic 6.31 and on
+The suite is 137 tests, Pest, green on PHP 8.4 with Statamic 6.31 and on
 PHP 8.2 with the oldest dependencies, in CI. The
 seven rules the addon exists to enforce each have their own test, and
 each was mutation-tested: the rule it guards was broken and the test went
@@ -244,8 +244,17 @@ October 2026 every screen was checked at 390 pixels wide in Chromium: no
 sideways page scroll, a level-two heading on every panel, and each wide
 table reachable by keyboard and scrolled with the arrow keys.
 
-Not done: a pass with a real screen reader (the accessibility tree was
-read, not listened to), Safari itself, and a production site.
+On every change to the views or code, CI drives a real VoiceOver on macOS
+in Safari's engine (WebKit) through the statement editor, the evidence
+log, the feedback screen and the public statement of a fresh Statamic
+site, by heading, form control, table and keyboard focus, and checks what
+it says: every panel title a level-two heading, every control with its
+label, each table named by its caption, each wide table taking focus, and
+the attestation refusal read after its heading. The transcript is on each
+run's summary page.
+
+Not done: a person listening with a screen reader, NVDA or JAWS on
+Windows, Safari itself rather than its engine, and a production site.
 
 ## Support
 
