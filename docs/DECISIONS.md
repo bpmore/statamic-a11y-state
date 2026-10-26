@@ -7,6 +7,23 @@ not edited when they stop being true; a reversal gets a newer entry.
 
 ---
 
+## 2026-10-26: The minimum is Statamic 6.31
+
+`composer.json` said `^6.27`, and the README and listing said so too. The
+lowest-version CI job had been resolving 6.31.0 all along: every release
+from 6.0.0-alpha.1 to 6.30.0 carries PKSA-rsd9-mj5m-pj4f (two-factor
+recovery codes exposed through dynamic Antlers rendering, reported 5
+August 2026), and Composer refuses advisory-affected versions by default.
+A promise of 6.27 was a promise nobody could install or test.
+
+**Kept:** `^6.31`, the version the lowest job installs, so the stated
+minimum is the tested one. **Rejected:** keeping `^6.27` and noting the
+advisory (it reads as support for versions this addon has never run on);
+ignoring the advisory in CI to test 6.27 (it would test a configuration
+no customer should run).
+
+---
+
 ## 2026-10-26: The statement links a stylesheet of its own
 
 Until now the statement was plain HTML with no styling, on the reasoning
