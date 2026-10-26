@@ -14,11 +14,12 @@ against the 0.1.2 release; keep it that way when the product changes.
 
 Listing name:
 
-> **A11y State: Accessibility Statements That Match the Evidence**
+> **A11y State: Accessibility Statements**
 
 "Accessibility statement" is what the buyer searches for: a council, a
-university, a hospital that has to publish one. "Match the evidence" is
-the thing no generator does.
+university, a hospital that has to publish one. Shortened by the owner on
+26 October 2026 from "...That Match the Evidence", which made the Buy
+button run to two lines; the one-liner below still carries that idea.
 
 ## Price
 
