@@ -211,6 +211,10 @@ it('writes, lists, filters and exports evidence, and has no route that changes o
         ->assertSessionHas('success');
     $this->post(cp_route('utilities.a11y-state.evidence.append'), ['site' => 'default', 'action' => 'note', 'notes' => 'x', 'supersedes' => 'nope'])
         ->assertSessionHas('error');
+    // A predecessor that is not shaped like an id is refused before it is
+    // looked up, so the form cannot be used to ask whether a file exists.
+    $this->post(cp_route('utilities.a11y-state.evidence.append'), ['site' => 'default', 'action' => 'note', 'notes' => 'x', 'supersedes' => '../../.env'])
+        ->assertSessionHas('error', fn (string $message) => str_contains($message, 'not a safe id'));
     $this->post(cp_route('utilities.a11y-state.evidence.append'), ['site' => 'default', 'action' => 'attested', 'notes' => 'x'])
         ->assertSessionHas('error');
     $this->post(cp_route('utilities.a11y-state.evidence.append'), ['site' => 'default', 'action' => 'note', 'notes' => ''])

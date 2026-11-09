@@ -2,6 +2,22 @@
 
 Newest first. Before 1.0, a breaking change raises the minor version.
 
+## Unreleased
+
+- The id a new evidence record corrects (`supersedes`) is held to the same
+  rule as a record's own id: letters, digits, dots, dashes and underscores.
+  It arrives from a form field, and the YAML driver looked it up as a file
+  before this check existed, so a crafted value could ask whether a file
+  with a `.yaml` name existed anywhere the path led. The refusal is in
+  `Record` itself, so both drivers get it, and the form says "not a safe
+  id" rather than writing nothing and saying nothing.
+- A CSV export cell that begins with `=`, `+`, `-`, `@`, a tab or a
+  carriage return is written with a leading single quote, so a spreadsheet
+  opens it as text and not as a formula. Notes and subjects are typed by a
+  person. The JSON export is unchanged.
+
+Nothing to do: `composer update bpmore/statamic-a11y-state`.
+
 ## 0.1.4 - 2026-10-26
 
 - Requires Statamic 6.31 or newer, up from 6.27. Statamic 6.30 and

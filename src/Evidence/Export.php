@@ -58,7 +58,7 @@ final class Export
         fputcsv($handle, self::COLUMNS, ',', '"', '');
 
         foreach (self::rows($records) as $row) {
-            fputcsv($handle, array_map(fn ($v) => is_array($v) ? json_encode($v, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : (string) ($v ?? ''), $row), ',', '"', '');
+            fputcsv($handle, array_map(fn ($v) => self::cell(is_array($v) ? (string) json_encode($v, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : (string) ($v ?? '')), $row), ',', '"', '');
         }
 
         rewind($handle);
@@ -66,6 +66,19 @@ final class Export
         fclose($handle);
 
         return $csv;
+    }
+
+    /**
+     * A spreadsheet runs a cell that starts with `=`, `+`, `-` or `@` as a
+     * formula, and some treat a leading tab or carriage return the same
+     * way. Notes and subjects are typed by whoever writes the record, so a
+     * leading quote keeps every cell text. The quote is visible in a plain
+     * text editor; a formula that reached out of the spreadsheet would be
+     * invisible until it ran.
+     */
+    private static function cell(string $value): string
+    {
+        return $value !== '' && str_contains("=+-@\t\r", $value[0]) ? "'".$value : $value;
     }
 
     /**

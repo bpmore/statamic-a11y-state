@@ -142,6 +142,35 @@ it('refuses an id that could escape the directory', function () {
     new Record('../etc/passwd', '2026-09-01T10:00:00+00:00', 'Ada', Actions::NOTE);
 })->throws(InvalidArgumentException::class);
 
+it('holds the superseded id to the same rule as the id, before anything is looked up', function () {
+    // The predecessor arrives from a form field and the YAML driver turns
+    // it into a path to check for a file. Without this rule the check was a
+    // way to ask whether `<directory>/<anything>.yaml` exists, anywhere the
+    // path led.
+    foreach (['../etc/passwd', '../../.env', 'r1/../r2', 'r 1', '.hidden', ''] as $bad) {
+        try {
+            record('r2', supersedes: $bad);
+            $this->fail("[$bad] was accepted as a predecessor");
+        } catch (InvalidArgumentException $e) {
+            expect($e->getMessage())->toContain('not a safe id');
+        }
+    }
+
+    // And the refusal happens in the record itself, so every driver gets it:
+    // a Record that names a bad predecessor cannot exist to be appended.
+    $outside = dirname($this->dir).'/'.basename($this->dir).'-outside.yaml';
+    touch($outside);
+
+    try {
+        $this->log->append(new Record('r2', '2026-09-01T10:00:00+00:00', 'Ada', Actions::NOTE, supersedes: '../'.basename($outside, '.yaml')));
+        $this->fail('a predecessor outside the directory was accepted');
+    } catch (InvalidArgumentException) {
+        expect($this->log->count())->toBe(0);
+    } finally {
+        @unlink($outside);
+    }
+});
+
 it('refuses a file whose name and id disagree, because somebody edited it by hand', function () {
     $this->log->append(record('r1'));
     $moved = $this->dir.'/r9.yaml';

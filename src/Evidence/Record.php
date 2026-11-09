@@ -21,6 +21,16 @@ use InvalidArgumentException;
 final class Record
 {
     /**
+     * What an id may look like: letters, digits, dots, dashes and
+     * underscores, starting with a letter or digit. The YAML driver turns an
+     * id into a file name, so anything that could name a different path is
+     * not an id. The same rule applies to the id a record supersedes, which
+     * arrives from a form field and is looked up as a file before it is
+     * written.
+     */
+    public const ID_PATTERN = '/^[A-Za-z0-9][A-Za-z0-9._-]*$/';
+
+    /**
      * @param  array<string, mixed>  $meta  anything an integration wants to keep, such as the id of the finding it came from
      */
     public function __construct(
@@ -34,8 +44,12 @@ final class Record
         public readonly ?string $supersedes = null,
         public readonly array $meta = [],
     ) {
-        if (! preg_match('/^[A-Za-z0-9][A-Za-z0-9._-]*$/', $id)) {
+        if (! preg_match(self::ID_PATTERN, $id)) {
             throw new InvalidArgumentException("Record id [{$id}] is not a safe id: letters, digits, dots, dashes and underscores only.");
+        }
+
+        if ($supersedes !== null && ! preg_match(self::ID_PATTERN, $supersedes)) {
+            throw new InvalidArgumentException("Record [{$id}] supersedes [{$supersedes}], which is not a safe id: letters, digits, dots, dashes and underscores only.");
         }
 
         if (Dates::parse($at) === null) {
