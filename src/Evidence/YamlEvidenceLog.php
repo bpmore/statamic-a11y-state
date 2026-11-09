@@ -75,7 +75,7 @@ final class YamlEvidenceLog implements EvidenceLog
 
     public function find(string $id): ?Record
     {
-        if (! preg_match('/^[A-Za-z0-9][A-Za-z0-9._-]*$/', $id)) {
+        if (! preg_match(Record::ID_PATTERN, $id)) {
             return null;
         }
 

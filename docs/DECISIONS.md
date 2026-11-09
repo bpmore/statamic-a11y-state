@@ -7,6 +7,29 @@ not edited when they stop being true; a reversal gets a newer entry.
 
 ---
 
+## 2026-11-09: A predecessor id is validated in the record, and CSV cells are quoted
+
+The evidence form takes the id of the record a correction supersedes. The
+YAML driver checked that a file by that name existed before writing, and
+nothing checked the id's shape first, so `../../something` asked the
+filesystem a question about a path outside the log. The CSV export wrote
+notes as typed, and a spreadsheet runs a cell that begins with `=`.
+
+**Kept:** the id pattern `Record` already applies to its own id is applied
+to `supersedes` in the constructor, so a record naming a bad predecessor
+cannot be built, whichever driver would have stored it. The CSV export
+prefixes a cell starting with `=`, `+`, `-`, `@`, tab or carriage return
+with a single quote; the quote is visible in a text editor, which is the
+point.
+
+**Rejected:** checking the shape in the controller only (the Eloquent
+driver and a script calling `append` directly would have skipped it);
+checking it in each driver (two places to drift); stripping the leading
+character from the CSV cell (an export that changes what was written is an
+export of a different log; the quote adds, it does not remove).
+
+---
+
 ## 2026-10-26: The minimum is Statamic 6.31
 
 `composer.json` said `^6.27`, and the README and listing said so too. The

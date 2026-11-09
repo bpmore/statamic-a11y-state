@@ -45,6 +45,41 @@ it('writes CSV with a header, every column, quoted multi-line notes, and the sup
     expect($r2['superseded_by'])->toBe('');
 });
 
+it('keeps a CSV cell that starts like a formula as text, and leaves JSON alone', function () {
+    // Notes and subjects are typed by a person, and a spreadsheet runs a
+    // cell beginning with one of these characters when the file is opened.
+    $records = [];
+
+    foreach (['=HYPERLINK("https://example.test","x")', '+1', '-1', '@SUM(A1)', "\tcmd", "\rcmd"] as $i => $notes) {
+        $records[] = new Record('r'.$i, '2026-09-01T10:00:00+00:00', 'Ada', Actions::NOTE, null, $notes, $notes);
+    }
+
+    $handle = fopen('php://temp', 'r+');
+    fwrite($handle, substr(Export::csv($records), 3));
+    rewind($handle);
+    $rows = [];
+
+    while (($row = fgetcsv($handle, 0, ',', '"', '')) !== false) {
+        $rows[] = array_combine(Export::COLUMNS, $row);
+    }
+
+    fclose($handle);
+    array_shift($rows);
+
+    foreach ($rows as $i => $row) {
+        expect($row['notes'])->toBe("'".$records[$i]->notes, $records[$i]->notes);
+        expect($row['subject'])->toBe("'".$records[$i]->subject);
+        // The id, the date and the actor begin with a letter or a digit and
+        // are passed through as they are.
+        expect($row['id'])->toBe($records[$i]->id);
+        expect($row['at'])->toBe($records[$i]->at);
+    }
+
+    // JSON is read by a script, not a spreadsheet, and says what was written.
+    $json = json_decode(Export::json($records), true, 512, JSON_THROW_ON_ERROR);
+    expect($json['records'][0]['notes'])->toBe('=HYPERLINK("https://example.test","x")');
+});
+
 it('writes JSON that a script can read back, with the count', function () {
     $json = json_decode(Export::json(exportRecords()), true, 512, JSON_THROW_ON_ERROR);
 
